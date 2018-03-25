@@ -1,0 +1,22 @@
+
+-
+    request:
+        method: POST
+        url: 'https://api.eyeson.team/rooms'
+        headers:
+            Host: api.eyeson.team
+            Authorization: 'Basic foobar'
+        body: user%5Bid%5D=it%27s+me%2C+mario
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Date: 'Sun, 25 Mar 2018 19:36:17 GMT'
+            Server: Apache
+            Location: 'https://api.eyeson.team/rooms'
+            Content-Length: '212'
+            Connection: close
+            Content-Type: 'application/json; charset=iso-8859-1'
+        body: '{ "links": { "gui": "https://app.eyeson.team/?testtoken" } }'
