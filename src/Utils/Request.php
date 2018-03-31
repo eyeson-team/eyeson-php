@@ -18,20 +18,32 @@ class Request {
   }
 
   /**
+   * Handle post request.
+   *
    * @param string $path
    * @param array $params
    **/
   public function post($path, array $params) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_HEADER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [ "Authorization: Basic "
-      . base64_encode($this->apiKey) ]);
-    $response = curl_exec($ch);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+      "Authorization: Basic " . $this->apiKey
+    ]);
+    $return = curl_exec($ch);
+    $split = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     curl_close($ch);
+
+    return $this->buildResponse($return, $split);
+  }
+
+  private function buildResponse($return, $split) {
+    $response = new Response();
+    $response->setHeader(\substr($return, 0, $split));
+    $response->setBody(\substr($return, $split));
     return $response;
   }
 }

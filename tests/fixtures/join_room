@@ -1,22 +1,40 @@
-
 -
     request:
         method: POST
-        url: 'https://api.eyeson.team/rooms'
+        url: 'http://localhost:8000/rooms'
         headers:
-            Host: api.eyeson.team
-            Authorization: 'Basic foobar'
-        body: user%5Bid%5D=it%27s+me%2C+mario
+            Host: 'localhost:8000'
+            Authorization: 'Basic secret-key'
+        body: 'id=standup+meeting&user%5Bid%5D=mike%40eyeson.team'
     response:
         status:
             http_version: '1.1'
             code: '200'
             message: OK
         headers:
-            Date: 'Sun, 25 Mar 2018 19:36:17 GMT'
-            Server: Apache
-            Location: 'https://api.eyeson.team/rooms'
-            Content-Length: '212'
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
             Connection: close
-            Content-Type: 'application/json; charset=iso-8859-1'
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '75'
+        body: '{ "links": { "gui": "https://app.eyeson.team/?testtoken" } }'
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'Basic secret-key'
+        body: 'id=standup+meeting&user%5Bid%5D=mike%40eyeson.team&user%5Bname%5D=Mike&user%5Bavatar%5D=https%3A%2F%2Fwww.gravatar.com%2Favatar%2F17ef9f5f544677fabb6bc5af1bbcc430'
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '75'
         body: '{ "links": { "gui": "https://app.eyeson.team/?testtoken" } }'
