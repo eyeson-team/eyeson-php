@@ -27,7 +27,7 @@ class Eyeson {
    **/
   public function join($user, $id=null) {
     if (\is_string($user)) {
-      $user = new User(["id" => $user]);
+      $user = new User(['name' => $user]);
     }
     elseif (\is_array($user)) {
       $user = new User($user);

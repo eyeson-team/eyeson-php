@@ -1,11 +1,9 @@
 <?php
 
-// require __DIR__ . '/../src/Utils/Request.php';
 require 'bootstrap.php';
 
 use PHPUnit\Framework\TestCase;
 use EyesonTeam\Eyeson\Eyeson;
-use EyesonTeam\Eyeson\Utils\Request;
 
 class EyesonTest extends TestCase {
 
@@ -23,7 +21,7 @@ class EyesonTest extends TestCase {
    **/
   public function testJoinRoomWithArray() {
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
-    $user = [ 'id' => 'mike@eyeson.team' ];
+    $user = [ 'name' => 'mike@eyeson.team' ];
     $room = $eyeson->join($user, 'standup meeting');
     $this->assertSame($room->getUrl(), 'https://app.eyeson.team/?testtoken');
   }

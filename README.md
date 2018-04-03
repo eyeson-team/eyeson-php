@@ -13,16 +13,17 @@ if you found a bug or have any feature requests. Feel free to add an
 
 ```php
 $eyeson = new Eyeson('<your-eyeson-api-key>');
-// Join a new eyeson video meeting by providing a users identifier. This
-// identifier should be unique throughout your system, the users email
-// address is a common choice.
-$room = $eyeson->join('mike@eyeson.team', 'standup meeting');
+// Join a new eyeson video meeting by providing a users name.
+$room = $eyeson->join('Mike', 'standup meeting');
 $room->getUrl(); // https://app.eyeson.team?<token> URL to eyeson.team video GUI
 // If you do not provide a room name, eyeson will create one for you. Note that
 // users will join different rooms on every request because every call will
 // create a new one.
 $room = $eyeson->join('mike@eyeson.team');
-// You can add some details of your user to be shown in the GUI.
+// You can add some details of your user to be shown in the GUI. Choosing a
+// unique identifer will keep the user distinct and ensure actions to be mapped
+// on this record. E.g. joining the room two times will not lead to two
+// different participants in a meeting.
 $user = [
   'id' => 'mike@eyeson.team',
   'name' => 'Mike',
@@ -34,6 +35,7 @@ $room = $eyeson->join($user, 'daily standup');
 ## Install the Library using Composer
 
 ```sh
+# required php version >= 5.4
 $ composer require eyeson.team/eyeson-php
 ```
 

@@ -31,7 +31,7 @@ class Request {
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-      "Authorization: Basic " . $this->apiKey
+      "Authorization: " . $this->apiKey
     ]);
     $return = curl_exec($ch);
     $split = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
