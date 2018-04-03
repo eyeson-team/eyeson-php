@@ -4,8 +4,8 @@
         url: 'http://localhost:8000/rooms'
         headers:
             Host: 'localhost:8000'
-            Authorization: 'Basic secret-key'
-        body: 'id=standup+meeting&user%5Bid%5D=mike%40eyeson.team'
+            Authorization: 'secret-key'
+        body: 'id=standup+meeting&user%5Bname%5D=mike%40eyeson.team'
     response:
         status:
             http_version: '1.1'
@@ -24,7 +24,7 @@
         url: 'http://localhost:8000/rooms'
         headers:
             Host: 'localhost:8000'
-            Authorization: 'Basic secret-key'
+            Authorization: 'secret-key'
         body: 'id=standup+meeting&user%5Bid%5D=mike%40eyeson.team&user%5Bname%5D=Mike&user%5Bavatar%5D=https%3A%2F%2Fwww.gravatar.com%2Favatar%2F17ef9f5f544677fabb6bc5af1bbcc430'
     response:
         status:

@@ -21,7 +21,7 @@ class Room {
    **/
   public function join(User $user) {
     $result = $this->api
-      ->post('/rooms', \array_merge(["id" => $id], $user->toArray()));
+      ->post('/rooms', \array_merge(['id' => $id], $user->toArray()));
     return new Response($result);
   }
 
