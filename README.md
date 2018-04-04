@@ -1,29 +1,28 @@
 
 # eyeson-php
 
-eyeson.team library for PHP create powerfull video conferences on demand,
-integrated in your own PHP application.
+eyeson.team PHP library - create powerful video conferences on demand and
+easily integrate eyeson with your own PHP applications.
 
-The library offers some basic features of [eyeson.team][eyeson]. See the [API
-documentation][api-doc] to get a full overview, create an [issue][php-issues]
-if you found a bug or have any feature requests. Feel free to add an
-[issues][api-issues] at the documentation for any general question.
+The library offers basic features of [eyeson.team][eyeson]. See the [API
+documentation][api-doc] to get a full overview, create an [issue][php-issues] if
+you found a bug or have a feature request. Feel free to add an [issue at the
+documentation repo][api- issues] for any general questions you might have.
 
 ## Usage
 
 ```php
 $eyeson = new Eyeson('<your-eyeson-api-key>');
-// Join a new eyeson video meeting by providing a users name.
+// Join a new eyeson video meeting by providing a user's name.
 $room = $eyeson->join('Mike', 'standup meeting');
 $room->getUrl(); // https://app.eyeson.team?<token> URL to eyeson.team video GUI
 // If you do not provide a room name, eyeson will create one for you. Note that
-// users will join different rooms on every request because every call will
-// create a new one.
+// users **will join different rooms on every request**.
 $room = $eyeson->join('mike@eyeson.team');
-// You can add some details of your user to be shown in the GUI. Choosing a
-// unique identifer will keep the user distinct and ensure actions to be mapped
-// on this record. E.g. joining the room two times will not lead to two
-// different participants in a meeting.
+// You can add additional details to your user, which will be be shown in the
+// GUI. Choosing a unique identifier will keep the user distinct and ensures
+// actions are mapped correctly to this record. E.g. joining the room twice will
+// not lead to two different participants in a meeting.
 $user = [
   'id' => 'mike@eyeson.team',
   'name' => 'Mike',
@@ -32,7 +31,7 @@ $user = [
 $room = $eyeson->join($user, 'daily standup');
 ```
 
-## Install the Library using Composer
+## Install the library using Composer
 
 ```sh
 # required php version >= 5.4
