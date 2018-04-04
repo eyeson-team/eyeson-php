@@ -1,5 +1,5 @@
 {
-    "name": "eyeson.team/eyeson-php",
+    "name": "eyeson/eyeson-php",
     "description": "eyeson API PHP Library",
     "license": "MIT",
     "keywords": ["eyeson", "video", "api"],
@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-      "php": "^5.4 || ^7.0"
+      "php": "^5.4 || ^7.0",
+        "vdeapps/phpwebcore": "^0.0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2",

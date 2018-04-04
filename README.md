@@ -36,7 +36,7 @@ $room = $eyeson->join($user, 'daily standup');
 
 ```sh
 # required php version >= 5.4
-$ composer require eyeson.team/eyeson-php
+$ composer require eyeson/eyeson-php
 ```
 
 ## Development
