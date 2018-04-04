@@ -1,5 +1,5 @@
 {
-    "name": "eyeson.team/eyeson-php",
+    "name": "eyeson/eyeson-php",
     "description": "eyeson API PHP Library",
     "license": "MIT",
     "keywords": ["eyeson", "video", "api"],
