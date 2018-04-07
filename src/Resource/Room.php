@@ -4,6 +4,9 @@ namespace EyesonTeam\Eyeson\Resource;
 
 use EyesonTeam\Eyeson\Model\User;
 
+/**
+ * Room Resource.
+ **/
 class Room {
   private $api, $id, $data;
 

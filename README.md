@@ -29,6 +29,9 @@ $user = [
   'avatar' => 'https://mikes.website/avatar.png'
 ];
 $room = $eyeson->join($user, 'daily standup');
+// Register a webhook
+$eyeson->addWebhook('https://my.application/hooks/recordings',
+                    'recording_update');
 ```
 
 ## Install the library using Composer

@@ -39,4 +39,13 @@ class EyesonTest extends TestCase {
     $room = $eyeson->join($user, 'standup meeting');
     $this->assertSame($room->getUrl(), 'https://app.eyeson.team/?testtoken');
   }
+
+  /**
+   * @vcr add_webhook
+   **/
+  public function testAddWebhook() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $result = $eyeson->addWebhook('http://localhost:5678', 'recording_update');
+    $this->assertSame($result, true);
+  }
 }

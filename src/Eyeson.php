@@ -5,6 +5,7 @@ namespace EyesonTeam\Eyeson;
 use EyesonTeam\Eyeson\Utils\Api;
 use EyesonTeam\Eyeson\Model\User;
 use EyesonTeam\Eyeson\Resource\Room;
+use EyesonTeam\Eyeson\Resource\Webhook;
 
 class Eyeson {
   private $api;
@@ -33,5 +34,16 @@ class Eyeson {
       $user = new User($user);
     }
     return (new Room($this->api, $id))->join($user);
+  }
+
+  /**
+   * Add a webhook in order to receive events on resource updates.
+   *
+   * @param string $targetUrl webhook target endpoint, your side ;)
+   * @param string $type one of EyesonTeam\Eyeson\Resource\Webhook::TYPES
+   * @return bool
+   **/
+  public function addWebhook($targetUrl, $type) {
+    return (new Webhook($this->api, $targetUrl, $type))->save();
   }
 }

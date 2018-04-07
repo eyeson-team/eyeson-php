@@ -26,24 +26,18 @@ class Request {
   public function post($path, array $params) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
       "Authorization: " . $this->apiKey
     ]);
-    $return = curl_exec($ch);
-    $split = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'eyeson-php');
+    $response = new Response();
+    $response->setBody(curl_exec($ch));
+    $response->setStatus(curl_getinfo($ch, CURLINFO_HTTP_CODE));
     curl_close($ch);
 
-    return $this->buildResponse($return, $split);
-  }
-
-  private function buildResponse($return, $split) {
-    $response = new Response();
-    $response->setHeader(\substr($return, 0, $split));
-    $response->setBody(\substr($return, $split));
     return $response;
   }
 }

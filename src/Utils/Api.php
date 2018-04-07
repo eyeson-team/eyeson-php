@@ -2,6 +2,10 @@
 
 namespace EyesonTeam\Eyeson\Utils;
 
+use EyesonTeam\Eyeson\Exception\NotFoundError;
+use EyesonTeam\Eyeson\Exception\AuthenticationError;
+use EyesonTeam\Eyeson\Exception\UnknownError;
+
 /**
  * eyeson Api request handling.
  **/
@@ -18,8 +22,6 @@ class Api {
 
   /**
    * Handle a HTTP POST request to eyeson API.
-   *
-   * @throws ...
    **/
   public function post($path, $params) {
     $response = $this->request->post($path, $params);
@@ -29,6 +31,10 @@ class Api {
 
   /**
    * Ensure HTTP response status code is valid.
+   *
+   * @throws NotFoundError on http status 404
+   * @throws AuthenticationError on http status 401
+   * @throws UnknownError on any unhandled http status
    **/
   private function ensure($response) {
     if ($response->getStatus() === 200) {
@@ -38,11 +44,18 @@ class Api {
       return;
     }
     if ($response->getStatus() === 404) {
-      // @TODO raise NotFoundError
+      throw new NotFoundError('Resource not found. The resource you requested '
+        . 'does not exist or is expired. If you expect an error feel free to '
+        . 'create an issue for the project anytime.');
     }
     if ($response->getStatus() === 401) {
-      // @TODO raise AuthenticationError
+      throw new AuthenticationError('Authentication failed. You have no '
+        . 'permission to request the resource. Please double check your '
+        . 'secret api key. If you expect an error feel free to create an '
+        . 'issue for the project anytime.');
     }
-    // @TODO raise UnknownError
+    throw new UnknownError('Request failed. The request has failed for an '
+      . 'unhandled reason. If you expect an error feel free to create an '
+      . 'issue for the project anytime.');
   }
 }

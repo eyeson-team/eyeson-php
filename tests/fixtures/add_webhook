@@ -1,0 +1,19 @@
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/webhooks'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: secret-key
+        body: 'url=http%3A%2F%2Flocalhost%3A5678&type=recording_update'
+    response:
+        status:
+            http_version: '1.1'
+            code: '201'
+            message: Created
+        headers:
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Content-Length: ''
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+        body: ''

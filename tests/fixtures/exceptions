@@ -1,0 +1,38 @@
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: invalid-key
+        body: user%5Bname%5D=mike%40eyeson.team
+    response:
+        status:
+            http_version: '1.1'
+            code: '401'
+            message: Unauthorized
+        headers:
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Content-Length: '0'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+        body: ''
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: secret-key
+        body: user%5Bname%5D=mike%40eyeson.team
+    response:
+        status:
+            http_version: '1.1'
+            code: '503'
+            message: 'Service Unavailable'
+        headers:
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Content-Length: '0'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+        body: ''

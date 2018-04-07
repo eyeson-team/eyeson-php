@@ -9,20 +9,22 @@ class Response {
   private $status, $body;
 
   /**
-   * Set header, exclusive the status code.
+   * Set HTTP status code.
    **/
-  public function setHeader($header) {
-    $code = \explode(\explode($header, "\n")[0], ' ')[1];
+  public function setStatus($code) {
     $this->status = \intval($code);
   }
 
   /**
-   * @return int $status http status code
+   * @return int $status HTTP status code
    **/
   public function getStatus() {
     return $this->status;
   }
 
+  /**
+   * @param string $body json encoded response
+   **/
   public function setBody($body) {
     $this->body = $body;
   }
