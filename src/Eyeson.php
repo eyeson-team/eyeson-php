@@ -26,14 +26,16 @@ class Eyeson {
    * @param string $id (optional) identifer for your room
    * @return Eyeson\Room
    **/
-  public function join($user, $id=null) {
+  public function join($user, $id=null, array $options=array()) {
     if (\is_string($user)) {
       $user = new User(['name' => $user]);
     }
     elseif (\is_array($user)) {
       $user = new User($user);
     }
-    return (new Room($this->api, $id))->join($user);
+    return (new Room($this->api, $id))
+      ->setOptions($options)
+      ->join($user);
   }
 
   /**

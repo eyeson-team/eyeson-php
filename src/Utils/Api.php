@@ -4,6 +4,7 @@ namespace EyesonTeam\Eyeson\Utils;
 
 use EyesonTeam\Eyeson\Exception\NotFoundError;
 use EyesonTeam\Eyeson\Exception\AuthenticationError;
+use EyesonTeam\Eyeson\Exception\NetworkError;
 use EyesonTeam\Eyeson\Exception\UnknownError;
 
 /**
@@ -53,6 +54,12 @@ class Api {
         . 'permission to request the resource. Please double check your '
         . 'secret api key. If you expect an error feel free to create an '
         . 'issue for the project anytime.');
+    }
+    if ($response->getStatus() === 0) {
+      throw new NetworkError('Network error. Please check your network '
+        . 'connection and ensure the api target is reachable. If you receive '
+        . 'this error in test-mode, you might have set a bad target api '
+        . 'endpoint. Don\'t set a target URL in production.');
     }
     throw new UnknownError('Request failed. The request has failed for an '
       . 'unhandled reason. If you expect an error feel free to create an '

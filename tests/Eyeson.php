@@ -41,6 +41,23 @@ class EyesonTest extends TestCase {
   }
 
   /**
+   * @vcr room_options
+   **/
+  public function testJoinRoomWithOptions() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $options = [
+      'show_names' => false,
+      'show_label' => false,
+      'recording_available' => false,
+      'broadcast_available' => false,
+      'layout_available' => false
+    ];
+    $room = $eyeson->join('mike@eyeson.team', null, $options);
+    $extra = ['layout_users' => null, 'custom_fields' => null];
+    $this->assertSame($room->getOptions(), \array_merge($options, $extra));
+  }
+
+  /**
    * @vcr add_webhook
    **/
   public function testAddWebhook() {
