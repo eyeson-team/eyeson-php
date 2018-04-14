@@ -11,6 +11,10 @@ documentation repo][api- issues] for any general questions you might have.
 
 ## Usage
 
+Provide your api key and quickly join any room using the join method. You can
+optionally provide [configuration options](/src/Resource/Room.php#L13) as a 3rd
+argument.
+
 ```php
 $eyeson = new Eyeson('<your-eyeson-api-key>');
 // Join a new eyeson video meeting by providing a user's name.
@@ -29,6 +33,12 @@ $user = [
   'avatar' => 'https://mikes.website/avatar.png'
 ];
 $room = $eyeson->join($user, 'daily standup');
+```
+
+Register webhooks to receive updates like new meetings, or recordigns in your
+application.
+
+```php
 // Register a webhook
 $eyeson->addWebhook('https://my.application/hooks/recordings',
                     'recording_update');

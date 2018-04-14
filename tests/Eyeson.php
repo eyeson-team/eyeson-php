@@ -58,6 +58,21 @@ class EyesonTest extends TestCase {
   }
 
   /**
+   * @vcr room_response
+   **/
+  public function testProvidesRoomResponse() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $this->assertSame($room->isReady(), false);
+    $this->assertSame($room->isExpired(), false);
+    $this->assertSame($room->getId(), 'fourtytwo');
+    $this->assertSame($room->getName(), 'team mike');
+    $this->assertSame($room->getAccessKey(), '<access-key>');
+    $this->assertSame($room->getGuestToken(), 'seventeen');
+    $this->assertSame($room->getGuestUrl(), 'https://app.eyeson.team/?guest=twentytwo');
+  }
+
+  /**
    * @vcr add_webhook
    **/
   public function testAddWebhook() {

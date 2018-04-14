@@ -1,0 +1,24 @@
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'secret-key'
+        body: 'user%5Bname%5D=mike%40eyeson.team'
+    response:
+        status:
+            http_version: '1.1'
+            code: '201'
+            message: Created
+        headers:
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Content-Type: 'application/json; charset=utf-8'
+            Transfer-Encoding: chunked
+            ETag: ''
+            Cache-Control: 'max-age=0, private, must-revalidate'
+            X-Request-Id: 123
+            X-Runtime: '0.109792'
+            Strict-Transport-Security: 'max-age=15552000; includeSubDomains'
+            Vary: Origin
+        body: '{"access_key":"<access-key>","ready":false,"room":{"id":"fourtytwo","name":"team mike","ready":false,"shutdown":false,"sip":{},"guest_token":"seventeen"},"team":{"name":"team mike"},"user":{"id":"twentytwo","name":"mike@eyeson.team","avatar":null,"guest":false,"ready":false,"sip":{}},"links":{"self":"https://api.eyeson.team/rooms/fourtytwo","gui":"https://app.eyeson.team/?<access-key>","guest_join":"https://app.eyeson.team/?guest=twentytwo","websocket":"https://api.eyeson.team/rt?access_key=<access-key>"},"options":{"show_names":false,"show_label":false,"recording_available":false,"broadcast_available":false,"layout_available":false,"layout_users":null,"custom_fields":null},"presentation":null,"broadcasts":[],"recording":null}'
