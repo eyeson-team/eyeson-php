@@ -42,10 +42,17 @@ class Eyeson {
    * Add a webhook in order to receive events on resource updates.
    *
    * @param string $targetUrl webhook target endpoint, your side ;)
-   * @param string $type one of EyesonTeam\Eyeson\Resource\Webhook::TYPES
+   * @param string|array $types array or comma-separated types
    * @return bool
+   * @see EyesonTeam\Eyeson\Resource\Webhook::TYPES
    **/
-  public function addWebhook($targetUrl, $type) {
-    return (new Webhook($this->api, $targetUrl, $type))->save();
+  public function addWebhook($targetUrl, $types) {
+    if (\is_string($types)) {
+      $types = \explode(',', $types);
+    }
+    if (!\is_array($types)) {
+      return false;
+    }
+    return (new Webhook($this->api, $targetUrl, $types))->save();
   }
 }

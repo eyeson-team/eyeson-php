@@ -5,7 +5,7 @@
         headers:
             Host: 'localhost:8000'
             Authorization: secret-key
-        body: 'url=http%3A%2F%2Flocalhost%3A5678&type=recording_update'
+        body: 'url=http%3A%2F%2Flocalhost%3A5678&types=room_update%2Crecording_update'
     response:
         status:
             http_version: '1.1'
@@ -16,4 +16,3 @@
             Content-Length: ''
             Connection: close
             Content-Type: 'application/json; charset=UTF-8'
-        body: ''

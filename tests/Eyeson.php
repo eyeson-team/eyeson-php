@@ -77,7 +77,8 @@ class EyesonTest extends TestCase {
    **/
   public function testAddWebhook() {
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
-    $result = $eyeson->addWebhook('http://localhost:5678', 'recording_update');
+    $result = $eyeson->addWebhook('http://localhost:5678',
+      'room_update,recording_update');
     $this->assertSame($result, true);
   }
 }
