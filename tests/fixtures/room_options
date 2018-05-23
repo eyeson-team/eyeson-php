@@ -5,7 +5,7 @@
         headers:
             Host: 'localhost:8000'
             Authorization: 'secret-key'
-        body: 'user%5Bname%5D=mike%40eyeson.team&options%5Bshow_names%5D=0&options%5Bshow_label%5D=0&options%5Brecording_available%5D=0&options%5Bbroadcast_available%5D=0&options%5Blayout_available%5D=0'
+        body: 'user%5Bname%5D=mike%40eyeson.team&options%5Bshow_names%5D=0&options%5Bshow_label%5D=0&options%5Bexit_url%5D=https%3A%2F%2Fwww.eyeson.team%2F&options%5Brecording_available%5D=0&options%5Bbroadcast_available%5D=0&options%5Blayout_available%5D=0'
     response:
         status:
             http_version: '1.1'
@@ -17,4 +17,4 @@
             Connection: close
             Content-Type: 'application/json; charset=UTF-8'
             Content-Length: '172'
-        body: '{"options":{"show_names":false,"show_label":false,"recording_available":false,"broadcast_available":false,"layout_available":false,"layout_users":null,"custom_fields":null}}'
+        body: '{"options":{"show_names":false,"show_label":false,"exit_url":"https://www.eyeson.team/","recording_available":false,"broadcast_available":false,"layout_available":false,"layout_users":null,"custom_fields":null}}'

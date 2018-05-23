@@ -48,6 +48,7 @@ class EyesonTest extends TestCase {
     $options = [
       'show_names' => false,
       'show_label' => false,
+      'exit_url' => 'https://www.eyeson.team/',
       'recording_available' => false,
       'broadcast_available' => false,
       'layout_available' => false

@@ -14,12 +14,13 @@ class Room {
    * Room OPTIONS
    *  show_names ... show/hide display names.
    *  show_label ... show/hide eyeson brand.
+   *  exit_url ... URL destination for the exit button.
    *  recording_available ... allow recordings.
    *  broadcast_available ... allow broadcasting.
    *  layout_available ... allow user layout updates.
    **/
-  const OPTIONS = ['show_names', 'show_label', 'recording_available',
-    'broadcast_available', 'layout_available'];
+  const OPTIONS = ['show_names', 'show_label', 'exit_url',
+    'recording_available', 'broadcast_available', 'layout_available'];
 
   public function __construct($api, $id) {
     $this->api = $api;
