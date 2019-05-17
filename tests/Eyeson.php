@@ -82,4 +82,32 @@ class EyesonTest extends TestCase {
       'room_update,recording_update');
     $this->assertSame($result, true);
   }
+
+  /**
+   * @vcr stop_room
+   **/
+  public function testStopRoom() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $this->assertTrue($eyeson->shutdown($room));
+  }
+
+  /**
+   * @vcr record_room
+   **/
+  public function testRecordRoom() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $this->assertTrue($eyeson->record($room)->isActive());
+  }
+
+  /**
+   * @vcr stop_recording
+   **/
+  public function testStopRecording() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $rec = $eyeson->record($room);
+    $this->assertTrue($rec->stop());
+  }
 }

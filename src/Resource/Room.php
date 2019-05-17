@@ -63,4 +63,13 @@ class Room {
     }
     return $arr;
   }
+
+  /**
+   * Force to stop a running meeting.
+   *
+   * @return boolean
+   **/
+  public function destroy() {
+    return $this->api->delete('/rooms/' . $this->id);
+  }
 }

@@ -23,6 +23,13 @@ class Response {
   }
 
   /**
+   * @return boolean HTTP status
+   **/
+  public function isOk() {
+    return $this->status >= 200 && $this->status < 300;
+  }
+
+  /**
    * @param string $body json encoded response
    **/
   public function setBody($body) {

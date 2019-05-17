@@ -1,12 +1,12 @@
 
 IMG=eyeson-php
 
-all: build run
+all: build test
 
 run:
 	docker run -it --rm -v `pwd`:/live:Z $(IMG) bash
 
-test: build
+test:
 	docker run -it --rm $(IMG) ./vendor/bin/phpunit
 
 build:
@@ -15,4 +15,4 @@ build:
 clean:
 	docker rmi $(IMG) && rm -f composer-setup.php
 
-.PHONY: build clean
+.PHONY: all run test build clean

@@ -24,10 +24,20 @@ class Api {
   /**
    * Handle a HTTP POST request to eyeson API.
    **/
-  public function post($path, $params) {
+  public function post($path, array $params = []) {
     $response = $this->request->post($path, $params);
     $this->ensure($response);
     return $response->getBody();
+  }
+
+  /**
+   * Handle a HTTP DELETE request to eyeson API.
+   *
+   * @return boolean
+   **/
+  public function delete($path) {
+    $response = $this->request->delete($path);
+    return $response->getStatus() === 204;
   }
 
   /**
@@ -42,6 +52,9 @@ class Api {
       return;
     }
     if ($response->getStatus() === 201) {
+      return;
+    }
+    if ($response->getStatus() === 204) {
       return;
     }
     if ($response->getStatus() === 404) {

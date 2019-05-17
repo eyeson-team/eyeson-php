@@ -37,6 +37,18 @@ $user = [
 $room = $eyeson->join($user, 'daily standup');
 ```
 
+You can control the meeting using a joined room, the actions will be triggered
+by the user who joined, use a control user on demand.
+
+```php
+// Force stop a running meeting.
+$eyeson->shutdown($room);
+// Start and stop a recording.
+$recording = $eyeson->record($room);
+$recording->isActive(); // true
+$recording->stop();
+```
+
 Register webhooks to receive updates like new meetings, or recordigns in your
 application.
 

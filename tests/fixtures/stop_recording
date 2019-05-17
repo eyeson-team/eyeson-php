@@ -1,0 +1,85 @@
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'secret-key'
+        body: 'user%5Bname%5D=mike%40eyeson.team'
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '75'
+        body: '{ "access_key": "5cd3f6dfe1382379a013d86c" }'
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms/5cd3f6dfe1382379a013d86c/recording'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'secret-key'
+        body: ''
+    response:
+        status:
+            http_version: '1.1'
+            code: '201'
+            message: Created
+        headers:
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '75'
+        body: ''
+-
+    request:
+        method: DELETE
+        url: 'http://localhost:8000/rooms/5cd3f6dfe1382379a013d86c/recording'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'secret-key'
+        body: ''
+    response:
+        status:
+            http_version: '1.1'
+            code: '204'
+            message: No Content
+        headers:
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '75'
+        body: ''
+-
+    request:
+        method: POST
+        url: 'https://api.eyeson.team/rooms'
+        headers:
+            Host: api.eyeson.team
+            Authorization: secret-key
+        body: user%5Bname%5D=mike%40eyeson.team
+    response:
+        status:
+            http_version: '1.1'
+            code: '401'
+            message: Unauthorized
+        headers:
+            Date: 'Fri, 17 May 2019 06:35:44 GMT'
+            Content-Type: 'application/json; charset=utf-8'
+            Transfer-Encoding: chunked
+            Connection: keep-alive
+            Server: nginx/1.10.3
+            Cache-Control: no-cache
+            X-Request-Id: 516b6ace-25e1-4f05-9fb6-c8e61184408c
+            X-Runtime: '0.004020'
+            Strict-Transport-Security: 'max-age=31536000; includeSubDomains'
+            Vary: Origin
+        body: '{"error":"Invalid API key"}'

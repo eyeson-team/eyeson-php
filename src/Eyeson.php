@@ -5,6 +5,7 @@ namespace EyesonTeam\Eyeson;
 use EyesonTeam\Eyeson\Utils\Api;
 use EyesonTeam\Eyeson\Model\User;
 use EyesonTeam\Eyeson\Resource\Room;
+use EyesonTeam\Eyeson\Resource\Recording;
 use EyesonTeam\Eyeson\Resource\Webhook;
 
 class Eyeson {
@@ -36,6 +37,24 @@ class Eyeson {
     return (new Room($this->api, $id))
       ->setOptions($options)
       ->join($user);
+  }
+
+  /**
+   * Force shutdown a running meeting.
+   **/
+  public function shutdown($room) {
+    return (new Room($this->api, $room->getId()))->destroy();
+  }
+
+  /**
+   * Start a recording.
+   *
+   * @return EyesonTeam\Eyeson\Resource\Recording
+   **/
+  public function record($room) {
+    $rec = new Recording($this->api, $room->getAccessKey());
+    $rec->start();
+    return $rec;
   }
 
   /**
