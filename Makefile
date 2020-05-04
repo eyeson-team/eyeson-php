@@ -1,18 +1,19 @@
 
+CMD=podman
 IMG=eyeson-php
 
 all: build test
 
 run:
-	docker run -it --rm -v `pwd`:/live:Z $(IMG) bash
+	$(CMD) run -it --rm -v `pwd`:/live:Z $(IMG) bash
 
 test:
-	docker run -it --rm $(IMG) ./vendor/bin/phpunit
+	$(CMD) run -it --rm $(IMG) ./vendor/bin/phpunit
 
 build:
-	docker build -t $(IMG) .
+	$(CMD) build -t $(IMG) .
 
 clean:
-	docker rmi $(IMG) && rm -f composer-setup.php
+	$(CMD) rmi $(IMG) && rm -f composer-setup.php
 
 .PHONY: all run test build clean
