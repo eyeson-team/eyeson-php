@@ -18,9 +18,12 @@ class Room {
    *  recording_available ... allow recordings.
    *  broadcast_available ... allow broadcasting.
    *  layout_available ... allow user layout updates.
+   *  reaction_available ... allow gif reactions.
+   *  guest_token_available ... allow inviting guests.
    **/
   const OPTIONS = ['show_names', 'show_label', 'exit_url',
-    'recording_available', 'broadcast_available', 'layout_available'];
+    'recording_available', 'broadcast_available', 'layout_available',
+    'reaction_available', 'guest_token_available'];
 
   public function __construct($api, $id) {
     $this->api = $api;
