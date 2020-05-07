@@ -2,8 +2,9 @@
 
 namespace EyesonTeam\Eyeson\Utils;
 
-use EyesonTeam\Eyeson\Exception\NotFoundError;
 use EyesonTeam\Eyeson\Exception\AuthenticationError;
+use EyesonTeam\Eyeson\Exception\BadRequestError;
+use EyesonTeam\Eyeson\Exception\NotFoundError;
 use EyesonTeam\Eyeson\Exception\NetworkError;
 use EyesonTeam\Eyeson\Exception\UnknownError;
 
@@ -37,6 +38,7 @@ class Api {
    **/
   public function delete($path) {
     $response = $this->request->delete($path);
+    $this->ensure($response);
     return $response->getStatus() === 204;
   }
 
@@ -56,6 +58,11 @@ class Api {
     }
     if ($response->getStatus() === 204) {
       return;
+    }
+    if ($response->getStatus() === 403) {
+      throw new BadRequestError('Bad request detected. The resource you tried '
+        . 'to update did receive invalid data. Please check the values '
+        . 'provided and compare with the API documentation.');
     }
     if ($response->getStatus() === 404) {
       throw new NotFoundError('Resource not found. The resource you requested '

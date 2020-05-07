@@ -1,0 +1,40 @@
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'secret-key'
+        body: 'user%5Bname%5D=mike%40eyeson.team'
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '75'
+        body: '{ "access_key": "5cd3f6dfe1382379a013d86c" }'
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms/5cd3f6dfe1382379a013d86c/layout'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'secret-key'
+        body: 'layout=auto'
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '75'
+        body: ''

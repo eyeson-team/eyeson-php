@@ -43,7 +43,9 @@ class Request {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+    $query = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D',
+      http_build_query($params));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
       "Authorization: " . $this->apiKey
     ]);

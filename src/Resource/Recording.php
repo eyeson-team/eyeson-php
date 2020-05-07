@@ -6,7 +6,7 @@ namespace EyesonTeam\Eyeson\Resource;
  * Recording Resource.
  **/
 class Recording {
-  private $api, $roomId, $recording;
+  private $api, $accessKey, $active;
 
   public function __construct($api, $accessKey) {
     $this->api = $api;

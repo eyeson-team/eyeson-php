@@ -110,4 +110,41 @@ class EyesonTest extends TestCase {
     $rec = $eyeson->record($room);
     $this->assertTrue($rec->stop());
   }
+
+  /**
+   * @vcr layout_auto
+   **/
+  public function testAutoLayout() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $this->assertTrue($eyeson->getLayout($room)->useAuto());
+  }
+
+  /**
+   * @vcr layout_users_update
+   **/
+  public function testCustomLayout() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $layout = $eyeson->getLayout($room);
+    $this->assertTrue($layout->update(['idone', 'idtwo']));
+  }
+
+  /**
+   * @vcr layout_hide_names
+   **/
+  public function testHideNames() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $this->assertTrue($eyeson->getLayout($room)->hideNames());
+  }
+
+  /**
+   * @vcr layout_show_names
+   **/
+  public function testShowNames() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $this->assertTrue($eyeson->getLayout($room)->showNames());
+  }
 }

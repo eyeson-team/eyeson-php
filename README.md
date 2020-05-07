@@ -58,6 +58,19 @@ $eyeson->addWebhook('https://my.application/hooks/recordings',
                     'recording_update');
 ```
 
+You can switch from the automatic layout handling to a custom layout and set
+up to four user positions for the video podium. Note: Use an empty string for
+an empty position. Additionally you can hide/show the name inserts in the
+video.
+
+```php
+$layout = $eyeson->getLayout($room);
+$layout->update($userList); // ["5eb3a...994", "5eb3a...d06"]
+$layout->useAuto();
+$layout->showNames();
+$layout->hideNames();
+```
+
 ## Install the library using Composer
 
 ```sh

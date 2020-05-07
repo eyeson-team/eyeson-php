@@ -4,6 +4,7 @@ namespace EyesonTeam\Eyeson;
 
 use EyesonTeam\Eyeson\Utils\Api;
 use EyesonTeam\Eyeson\Model\User;
+use EyesonTeam\Eyeson\Resource\Layout;
 use EyesonTeam\Eyeson\Resource\Room;
 use EyesonTeam\Eyeson\Resource\Recording;
 use EyesonTeam\Eyeson\Resource\Webhook;
@@ -55,6 +56,16 @@ class Eyeson {
     $rec = new Recording($this->api, $room->getAccessKey());
     $rec->start();
     return $rec;
+  }
+
+  /**
+   * Get a rooms video layout.
+   *
+   * @return EyesonTeam\Eyeson\Resource\Layout
+   **/
+  public function getLayout($room) {
+    $layout = new Layout($this->api, $room->getAccessKey());
+    return $layout;
   }
 
   /**
