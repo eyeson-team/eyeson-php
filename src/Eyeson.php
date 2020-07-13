@@ -44,7 +44,11 @@ class Eyeson {
    * Force shutdown a running meeting.
    **/
   public function shutdown($room) {
-    return (new Room($this->api, $room->getId()))->destroy();
+    if(is_string($room)) {
+      return (new Room($this->api, $room))->destroy();
+    } else {
+      return (new Room($this->api, $room->getId()))->destroy();
+    }
   }
 
   /**
