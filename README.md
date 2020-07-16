@@ -9,7 +9,7 @@ easily integrate eyeson with your own PHP applications.
 The library offers basic features of [eyeson.team][eyeson]. See the [API
 documentation][api-doc] to get a full overview, create an [issue][php-issues] if
 you found a bug or have a feature request. Feel free to add an [issue at the
-documentation repo][api- issues] for any general questions you might have.
+documentation repo][api-issues] for any general questions you might have.
 
 ## Usage
 
