@@ -89,7 +89,7 @@ $ make test
 ```
 
 [eyeson]: https://www.eyeson.team "eyeson team"
-[api-doc]: https://eyeson-team.github.com/api "eyeson API Documentation"
+[api-doc]: https://eyeson-team.github.io/api "eyeson API Documentation"
 [php-issues]: https://github.com/eyeson-team/eyeson-php/issues "eyeson PHP Issues"
 [api-issues]: https://github.com/eyeson-team/api/issues "eyeson API issues"
 
