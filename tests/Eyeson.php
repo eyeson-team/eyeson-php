@@ -51,10 +51,15 @@ class EyesonTest extends TestCase {
       'exit_url' => 'https://www.eyeson.team/',
       'recording_available' => false,
       'broadcast_available' => false,
-      'layout_available' => false
+      'layout_available' => false,
+      'logo' => 'https://www.eyeson.com/logo.png'
     ];
     $room = $eyeson->join('mike@eyeson.team', null, $options);
-    $extra = ['layout_users' => null, 'custom_fields' => null];
+    $extra = [
+      'layout_users' => null,
+      'custom_fields' => ['logo' => $options['logo']]
+    ];
+    unset($options['logo']);
     $this->assertSame($room->getOptions(), \array_merge($options, $extra));
   }
 

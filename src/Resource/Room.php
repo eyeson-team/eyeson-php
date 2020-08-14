@@ -21,9 +21,10 @@ class Room {
    *  reaction_available ... allow gif reactions.
    *  guest_token_available ... allow inviting guests.
    **/
-  const OPTIONS = ['show_names', 'show_label', 'exit_url',
+  const OPTIONS = ['show_names', 'show_label', 'exit_url', 'logo',
     'recording_available', 'broadcast_available', 'layout_available',
     'reaction_available', 'guest_token_available'];
+  const CUSTOM_OPTIONS = ['logo'];
 
   public function __construct($api, $id) {
     $this->api = $api;
@@ -61,7 +62,11 @@ class Room {
 
   private function prefix($arr, $prefix) {
     foreach(\array_keys($arr) as $key) {
-      $arr[$prefix . '[' . $key . ']'] = $arr[$key];
+      if (\in_array($key, self::CUSTOM_OPTIONS)) {
+        $arr[$prefix . '[custom_fields][' . $key . ']'] = $arr[$key];
+      } else {
+        $arr[$prefix . '[' . $key . ']'] = $arr[$key];
+      }
       unset($arr[$key]);
     }
     return $arr;
