@@ -64,6 +64,17 @@ class EyesonTest extends TestCase {
   }
 
   /**
+   * @vcr room_locale
+   **/
+  public function testJoinRoomWithLocale() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $options = ['locale' => 'de'];
+    $room = $eyeson->join('mike@eyeson.team', null, $options);
+    $extra = ['custom_fields' => ['locale' => 'de']];
+    $this->assertSame($room->getOptions(), $extra);
+  }
+
+  /**
    * @vcr room_response
    **/
   public function testProvidesRoomResponse() {

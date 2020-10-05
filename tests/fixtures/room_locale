@@ -1,0 +1,20 @@
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'secret-key'
+        body: 'user%5Bname%5D=mike%40eyeson.team&options%5Bcustom_fields%5D%5Blocale%5D=de'
+    response:
+        status:
+            http_version: '1.1'
+            code: '201'
+            message: Created
+        headers:
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '210'
+        body: '{"options":{"custom_fields":{"locale":"de"}}}'

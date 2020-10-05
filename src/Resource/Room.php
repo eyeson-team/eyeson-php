@@ -20,11 +20,13 @@ class Room {
    *  layout_available ... allow user layout updates.
    *  reaction_available ... allow gif reactions.
    *  guest_token_available ... allow inviting guests.
+   *  logo ... URL destination of LOGO image
+   *  locale ... locale shortname
    **/
-  const OPTIONS = ['show_names', 'show_label', 'exit_url', 'logo',
+  const OPTIONS = ['show_names', 'show_label', 'exit_url', 'logo', 'locale',
     'recording_available', 'broadcast_available', 'layout_available',
     'reaction_available', 'guest_token_available'];
-  const CUSTOM_OPTIONS = ['logo'];
+  const CUSTOM_OPTIONS = ['logo', 'locale'];
 
   public function __construct($api, $id) {
     $this->api = $api;
