@@ -35,9 +35,12 @@ class Eyeson {
     elseif (\is_array($user)) {
       $user = new User($user);
     }
-    return (new Room($this->api, $id))
-      ->setOptions($options)
-      ->join($user);
+    $room = new Room($this->api, $id);
+    if(\array_key_exists('name', $options)) {
+      $room->setName($options['name']);
+      unset($options['name']);
+    }
+    return $room->setOptions($options)->join($user);
   }
 
   /**

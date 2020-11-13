@@ -9,7 +9,7 @@ use EyesonTeam\Eyeson\Model\Room as Response;
  * Room Resource.
  **/
 class Room {
-  private $api, $id, $options = [];
+  private $api, $id, $name, $options = [];
   /**
    * Room OPTIONS
    *  show_names ... show/hide display names.
@@ -41,12 +41,23 @@ class Room {
    **/
   public function join(User $user) {
     $params = \array_merge(
-      [ "id" => $this->id ],
+      [ "id" => $this->id, "name" => $this->name ],
       $this->prefix($user->toArray(), 'user'),
       $this->prefix($this->options, 'options')
     );
 
     return new Response($this->api->post('/rooms', $params));
+  }
+
+  /**
+   * Set room name
+   *
+   * @param string $name
+   * @return Eyeson\Resource\Room
+   **/
+  public function setName(string $name) {
+    $this->name = $name;
+    return $this;
   }
 
   /**

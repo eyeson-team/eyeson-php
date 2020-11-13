@@ -90,6 +90,15 @@ class EyesonTest extends TestCase {
   }
 
   /**
+   * @vcr set_room_name
+   **/
+  public function testSetRoomName() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team', null, ['name' => 'Standup']);
+    $this->assertSame($room->getName(), 'Standup');
+  }
+
+  /**
    * @vcr add_webhook
    **/
   public function testAddWebhook() {
