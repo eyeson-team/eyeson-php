@@ -25,7 +25,7 @@ $room->getUrl(); // https://app.eyeson.team?<token> URL to eyeson.team video GUI
 // If you do not provide a room name, eyeson will create one for you. Note that
 // users **will join different rooms on every request**.
 $room = $eyeson->join('mike@eyeson.team');
-// You can add additional details to your user, which will be be shown in the
+// You can add additional details to your user, which will be shown in the
 // GUI. Choosing a unique identifier will keep the user distinct and ensures
 // actions are mapped correctly to this record. E.g. joining the room twice will
 // not lead to two different participants in a meeting.
@@ -49,7 +49,7 @@ $recording->isActive(); // true
 $recording->stop();
 ```
 
-Register webhooks to receive updates like new meetings, or recordigns in your
+Register webhooks to receive updates like new meetings, or recordings in your
 application.
 
 ```php
@@ -60,7 +60,7 @@ $eyeson->addWebhook('https://my.application/hooks/recordings',
 
 You can switch from the automatic layout handling to a custom layout and set
 up to four user positions for the video podium. Note: Use an empty string for
-an empty position. Additionally you can hide/show the name inserts in the
+an empty position. Additionally, you can hide/show the name inserts in the
 video.
 
 ```php
