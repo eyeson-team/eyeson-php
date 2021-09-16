@@ -10,6 +10,7 @@ use EyesonTeam\Eyeson\Model\Room as Response;
  **/
 class Room {
   private $api, $id, $name, $options = [];
+
   /**
    * Room OPTIONS
    *  show_names ... show/hide display names.
@@ -25,8 +26,12 @@ class Room {
    **/
   const OPTIONS = ['show_names', 'show_label', 'exit_url', 'logo', 'locale',
     'recording_available', 'broadcast_available', 'layout_available',
-    'reaction_available', 'guest_token_available'];
-  const CUSTOM_OPTIONS = ['logo', 'locale'];
+    'reaction_available', 'guest_token_available', 'virtual_background',
+    'virtual_background_allow_guest', 'virtual_background_image',
+    'virtual_background_allow_local_image'];
+  const CUSTOM_OPTIONS = ['logo', 'locale', 'virtual_background',
+    'virtual_background_allow_guest', 'virtual_background_image',
+    'virtual_background_allow_local_image'];
 
   public function __construct($api, $id) {
     $this->api = $api;
