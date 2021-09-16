@@ -10,6 +10,6 @@ require_once(__ROOT__.'/vendor/autoload.php');
 use EyesonTeam\Eyeson\Eyeson;
 
 $eyeson = new Eyeson($argv[1]);
-$room = $eyeson->join('tester from eyeson-php', 'testroom');
+$room = $eyeson->join('tester from eyeson-php', null, ['name' => 'test room']);
 
 echo 'URL to eyeson GUI ' . $room->getUrl() . "\n";

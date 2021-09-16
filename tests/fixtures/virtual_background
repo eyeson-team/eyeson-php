@@ -1,0 +1,20 @@
+-
+    request:
+        method: POST
+        url: 'http://localhost:8000/rooms'
+        headers:
+            Host: 'localhost:8000'
+            Authorization: 'secret-key'
+        body: 'user%5Bname%5D=mike%40eyeson.team&options%5Bcustom_fields%5D%5Bvirtual_background%5D=true&options%5Bcustom_fields%5D%5Bvirtual_background_allow_guest%5D=true&options%5Bcustom_fields%5D%5Bvirtual_background_image%5D=http%3A%2F%2Flocalhost%3A8000%2Fbg.jpg&options%5Bcustom_fields%5D%5Bvirtual_background_allow_local_image%5D=true'
+    response:
+        status:
+            http_version: '1.1'
+            code: '201'
+            message: Created
+        headers:
+            Host: 'localhost:8000'
+            Date: 'Sat, 31 Mar 2018 11:58:00 +0000'
+            Connection: close
+            Content-Type: 'application/json; charset=UTF-8'
+            Content-Length: '210'
+        body: '{"options":{"custom_fields":{"virtual_background":true}}}'

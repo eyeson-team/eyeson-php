@@ -172,4 +172,18 @@ class EyesonTest extends TestCase {
     $room = $eyeson->join('mike@eyeson.team');
     $this->assertTrue($eyeson->getLayout($room)->showNames());
   }
+
+  /**
+   * @vcr virtual_background
+   **/
+  public function testVirtualBackground() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team', null, [
+      'virtual_background' => true,
+      'virtual_background_allow_guest' => true,
+      'virtual_background_image' => 'http://localhost:8000/bg.jpg',
+      'virtual_background_allow_local_image' => true
+    ]);
+    $this->assertTrue($room->getOptions()['custom_fields']['virtual_background']);
+  }
 }

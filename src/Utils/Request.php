@@ -44,7 +44,7 @@ class Request {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
     $query = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D',
-      http_build_query($params));
+      http_build_query($this->ensureBooleans($params)));
     curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
       "Authorization: " . $this->apiKey
@@ -56,5 +56,14 @@ class Request {
     curl_close($ch);
 
     return $response;
+  }
+
+  private function ensureBooleans($arr) {
+    $fn = function($val) {
+      if ($val === true) $val = 'true';
+      if ($val === false) $val = 'false';
+      return $val;
+    };
+    return array_map($fn, $arr);
   }
 }

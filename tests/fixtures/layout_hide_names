@@ -25,7 +25,7 @@
         headers:
             Host: 'localhost:8000'
             Authorization: 'secret-key'
-        body: 'show_names=0'
+        body: 'show_names=false'
     response:
         status:
             http_version: '1.1'
