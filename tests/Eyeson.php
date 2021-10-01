@@ -186,4 +186,13 @@ class EyesonTest extends TestCase {
     ]);
     $this->assertTrue($room->getOptions()['custom_fields']['virtual_background']);
   }
+
+  /**
+   * @vcr sfu_mode
+   **/
+  public function testSFUMode() {
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team', null, ['sfu_mode' => 'disabled']);
+    $this->assertEquals($room->getOptions()['sfu_mode'], 'disabled');
+  }
 }

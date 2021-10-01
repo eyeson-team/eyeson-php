@@ -26,10 +26,11 @@ class Room {
    **/
   const OPTIONS = ['show_names', 'show_label', 'exit_url', 'logo', 'locale',
     'recording_available', 'broadcast_available', 'layout_available',
+    'lock_available', 'kick_available', 'sfu_mode', 'hide_chat',
     'reaction_available', 'guest_token_available', 'virtual_background',
     'virtual_background_allow_guest', 'virtual_background_image',
     'virtual_background_allow_local_image'];
-  const CUSTOM_OPTIONS = ['logo', 'locale', 'virtual_background',
+  const CUSTOM_OPTIONS = ['logo', 'locale', 'hide_chat', 'virtual_background',
     'virtual_background_allow_guest', 'virtual_background_image',
     'virtual_background_allow_local_image'];
 
