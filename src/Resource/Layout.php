@@ -21,7 +21,7 @@ class Layout {
    **/
   public function update($userList) {
     $params = ['layout' => 'custom', 'users' => $userList];
-    $this->api->post('/rooms/' . $this->accessKey . '/layout', $params);
+    $this->api->post('/rooms/' . $this->accessKey . '/layout', $params, false);
     return true;
   }
 
@@ -32,7 +32,7 @@ class Layout {
    **/
   public function useAuto() {
     $params = ['layout' => 'auto'];
-    $this->api->post('/rooms/' . $this->accessKey . '/layout', $params);
+    $this->api->post('/rooms/' . $this->accessKey . '/layout', $params, false);
     return true;
   }
 
@@ -43,7 +43,7 @@ class Layout {
    **/
   public function hideNames() {
     $params = ['show_names' => false];
-    $this->api->post('/rooms/' . $this->accessKey . '/layout', $params);
+    $this->api->post('/rooms/' . $this->accessKey . '/layout', $params, false);
     return true;
   }
 
@@ -54,7 +54,7 @@ class Layout {
    **/
   public function showNames() {
     $params = ['show_names' => true];
-    $this->api->post('/rooms/' . $this->accessKey . '/layout', $params);
+    $this->api->post('/rooms/' . $this->accessKey . '/layout', $params, false);
     return true;
   }
 }

@@ -11,7 +11,7 @@ class User {
   /**
    * @param array $args with optional keys id, name and avatar
    **/
-  public function __construct(array $args = array()) {
+  public function __construct(array $args = []) {
     if (!empty($args)) {
       $this->fromArray($args);
     }

@@ -23,10 +23,19 @@ class Api {
   }
 
   /**
+   * Handle a HTTP GET request to eyeson API.
+   **/
+  public function get($path, $requireAuth = true) {
+    $response = $this->request->get($path, $requireAuth);
+    $this->ensure($response);
+    return $response->getBody();
+  }
+
+  /**
    * Handle a HTTP POST request to eyeson API.
    **/
-  public function post($path, array $params = []) {
-    $response = $this->request->post($path, $params);
+  public function post($path, array $params = [], $requireAuth = true) {
+    $response = $this->request->post($path, $params, $requireAuth);
     $this->ensure($response);
     return $response->getBody();
   }
@@ -36,10 +45,10 @@ class Api {
    *
    * @return boolean
    **/
-  public function delete($path) {
-    $response = $this->request->delete($path);
+  public function delete($path, $expectedStatus = 204, $requireAuth = true) {
+    $response = $this->request->delete($path, $requireAuth);
     $this->ensure($response);
-    return $response->getStatus() === 204;
+    return $response->getStatus() === $expectedStatus;
   }
 
   /**

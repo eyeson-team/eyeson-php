@@ -4,6 +4,7 @@ namespace EyesonTeam\Eyeson\Resource;
 
 use EyesonTeam\Eyeson\Model\User;
 use EyesonTeam\Eyeson\Model\Room as Response;
+use EyesonTeam\Eyeson\Exception\TimeoutError;
 
 /**
  * Room Resource.
@@ -89,6 +90,26 @@ class Room {
       unset($arr[$key]);
     }
     return $arr;
+  }
+
+  /**
+   * Fetch room data until room is ready.
+   *
+   * @param string $accessKey
+   * @return Eyeson\Model\Room
+   * @throws TimeoutError after 30s
+   **/
+  public function waitReady($accessKey) {
+    $timeout = time() + 30;
+    $room = new Response($this->api->get('/rooms/' . $accessKey, false));
+    while (!$room->isReady()) {
+      if (time() > $timeout) {
+        throw new TimeoutError('Room ready timeout.');
+      }
+      sleep(1);
+      $room = new Response($this->api->get('/rooms/' . $accessKey, false));
+    }
+    return $room;
   }
 
   /**

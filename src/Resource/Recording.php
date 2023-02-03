@@ -24,7 +24,7 @@ class Recording {
       return false;
     }
 
-    $this->api->post('/rooms/' . $this->accessKey . '/recording');
+    $this->api->post('/rooms/' . $this->accessKey . '/recording', [], false);
     return $this->active = true;
   }
 
@@ -43,7 +43,7 @@ class Recording {
     }
 
     return !$this->active = !$this->api
-      ->delete('/rooms/' . $this->accessKey . '/recording');
+      ->delete('/rooms/' . $this->accessKey . '/recording', 200, false);
   }
 }
 

@@ -28,7 +28,7 @@ class Eyeson {
    * @param string $id (optional) identifer for your room
    * @return Eyeson\Room
    **/
-  public function join($user, $id=null, array $options=array()) {
+  public function join($user, $id = null, array $options = []) {
     if (\is_string($user)) {
       $user = new User(['name' => $user]);
     }
@@ -44,10 +44,21 @@ class Eyeson {
   }
 
   /**
+   * @param EyesonTeam\Eyeson\Model\Room $room
+   **/
+  public function waitReady($room) {
+    if ($room->isReady()) {
+      return $room;
+    }
+    $roomResource = new Room($this->api, $room->getId());
+    return $roomResource->waitReady($room->getAccessKey());
+  }
+
+  /**
    * Force shutdown a running meeting.
    **/
   public function shutdown($room) {
-    if(is_string($room)) {
+    if (is_string($room)) {
       return (new Room($this->api, $room))->destroy();
     } else {
       return (new Room($this->api, $room->getId()))->destroy();
@@ -60,7 +71,11 @@ class Eyeson {
    * @return EyesonTeam\Eyeson\Resource\Recording
    **/
   public function record($room) {
-    $rec = new Recording($this->api, $room->getAccessKey());
+    if (is_string($room)) {
+      $rec = new Recording($this->api, $room);
+    } else {
+      $rec = new Recording($this->api, $room->getAccessKey());
+    }
     $rec->start();
     return $rec;
   }
@@ -71,7 +86,11 @@ class Eyeson {
    * @return EyesonTeam\Eyeson\Resource\Layout
    **/
   public function getLayout($room) {
-    $layout = new Layout($this->api, $room->getAccessKey());
+    if (is_string($room)) {
+      $layout = new Layout($this->api, $room);
+    } else {
+      $layout = new Layout($this->api, $room->getAccessKey());
+    }
     return $layout;
   }
 

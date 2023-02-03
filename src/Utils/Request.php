@@ -18,6 +18,17 @@ class Request {
   }
 
   /**
+   * Handle a get request.
+   *
+   * @param string $path
+   *
+   * @return EyesonTeam\Eyeson\Utils\Response
+   **/
+  public function get($path, $requireAuth = true) {
+    return $this->deliver($path, 'GET', [], $requireAuth);
+  }
+
+  /**
    * Handle a post request.
    *
    * @param string $path
@@ -25,8 +36,8 @@ class Request {
    *
    * @return EyesonTeam\Eyeson\Utils\Response
    **/
-  public function post($path, array $params = []) {
-    return $this->deliver($path, 'POST', $params);
+  public function post($path, array $params = [], $requireAuth = true) {
+    return $this->deliver($path, 'POST', $params, $requireAuth);
   }
 
   /**
@@ -34,21 +45,25 @@ class Request {
    *
    * @return EyesonTeam\Eyeson\Utils\Response
    **/
-  public function delete($path) {
-    return $this->deliver($path, 'DELETE');
+  public function delete($path, $requireAuth) {
+    return $this->deliver($path, 'DELETE', [], $requireAuth);
   }
 
-  private function deliver($path, $method = 'GET', array $params = []) {
+  private function deliver($path, $method = 'GET', array $params = [], $requireAuth = true) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
-    $query = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D',
-      http_build_query($this->ensureBooleans($params)));
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-      "Authorization: " . $this->apiKey
-    ]);
+    if ($method === 'POST') {
+      $query = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D',
+        http_build_query($this->ensureBooleans($params)));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+    }
+    if ($requireAuth) {
+      curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: " . $this->apiKey
+      ]);
+    }
     curl_setopt($ch, CURLOPT_USERAGENT, 'eyeson-php');
     $response = new Response();
     $response->setBody(curl_exec($ch));

@@ -37,6 +37,15 @@ $user = [
 $room = $eyeson->join($user, 'daily standup');
 ```
 
+Before running any meeting related function like record, layout, or shutdown,
+make sure that the meeting/room is ready.
+
+```php
+if (!$room->isReady()) {
+  $room = $eyeson->waitReady($room);
+}
+```
+
 You can control the meeting using a joined room, the actions will be triggered
 by the user who joined, use a control user on demand.
 
