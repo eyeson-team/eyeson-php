@@ -43,7 +43,7 @@ class Room {
   /**
    * Join the room.
    *
-   * @param Eyeson\Model\User $user
+   * @param Eyeson\Model\User user
    * @return Eyeson\Model\Room
    **/
   public function join(User $user) {
@@ -59,7 +59,7 @@ class Room {
   /**
    * Set room name
    *
-   * @param string $name
+   * @param string name
    * @return Eyeson\Resource\Room
    **/
   public function setName(string $name) {
@@ -95,7 +95,7 @@ class Room {
   /**
    * Fetch room data until room is ready.
    *
-   * @param string $accessKey
+   * @param string accessKey
    * @return Eyeson\Model\Room
    * @throws TimeoutError after 30s
    **/
@@ -115,7 +115,7 @@ class Room {
   /**
    * Force to stop a running meeting.
    *
-   * @return boolean
+   * @return bool
    **/
   public function destroy() {
     return $this->api->delete('/rooms/' . $this->id);

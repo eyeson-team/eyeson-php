@@ -24,7 +24,6 @@
         url: 'http://localhost:8000/rooms/5cd3f6dfe1382379a013d86c/recording'
         headers:
             Host: 'localhost:8000'
-            Authorization: 'secret-key'
         body: ''
     response:
         status:
@@ -44,13 +43,12 @@
         url: 'http://localhost:8000/rooms/5cd3f6dfe1382379a013d86c/recording'
         headers:
             Host: 'localhost:8000'
-            Authorization: 'secret-key'
         body: ''
     response:
         status:
             http_version: '1.1'
-            code: '204'
-            message: No Content
+            code: '200'
+            message: OK
         headers:
             Host: 'localhost:8000'
             Date: 'Sat, 31 Mar 2018 11:58:00 +0000'

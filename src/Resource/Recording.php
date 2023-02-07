@@ -6,44 +6,30 @@ namespace EyesonTeam\Eyeson\Resource;
  * Recording Resource.
  **/
 class Recording {
-  private $api, $accessKey, $active;
+  private $api, $accessKey;
 
   public function __construct($api, $accessKey) {
     $this->api = $api;
     $this->accessKey = $accessKey;
-    $this->active = false;
   }
 
   /**
    * Start a recording.
    *
-   * @return boolean started
+   * @return bool
    **/
   public function start() {
-    if ($this->active === true) {
-      return false;
-    }
-
     $this->api->post('/rooms/' . $this->accessKey . '/recording', [], false);
-    return $this->active = true;
-  }
-
-  public function isActive() {
-    return $this->active;
+    return true;
   }
 
   /**
    * Stop a recording.
    *
-   * @return boolean stopped
+   * @return bool
    **/
   public function stop() {
-    if ($this->active === false) {
-      return false;
-    }
-
-    return !$this->active = !$this->api
-      ->delete('/rooms/' . $this->accessKey . '/recording', 200, false);
+    return $this->api->delete('/rooms/' . $this->accessKey . '/recording', 200, false);
   }
 }
 

@@ -6,8 +6,9 @@ namespace EyesonTeam\Eyeson\Resource;
  * Webhook Resource.
  **/
 class Webhook {
-  const TYPES = ['user_update', 'document_update', 'recording_update',
-    'broadcast_update', 'room_update', 'team_update', 'presentation_update'];
+  const TYPES = [
+    'room_update', 'recording_update', 'participant_update', 'snapshot_update'
+  ];
 
   private $api, $url, $types;
 
@@ -20,7 +21,7 @@ class Webhook {
   /**
    * Save the webhook with current configuration.
    *
-   * @return bool success?
+   * @return bool
    **/
   public function save() {
     if (\filter_var($this->url, FILTER_VALIDATE_URL) === false) {

@@ -14,10 +14,21 @@ class Layout {
   }
 
   /**
+   * Apply layout options.
+   *
+   * @param array options
+   * @return bool
+   **/
+  public function apply($options) {
+    $this->api->post('/rooms/' . $this->accessKey . '/layout', $options, false);
+    return true;
+  }
+
+  /**
    * Update video podium.
    *
-   * @param array $userList a list of user IDs or empty strings
-   * @return boolean changed
+   * @param array userList a list of user IDs or empty strings
+   * @return bool
    **/
   public function update($userList) {
     $params = ['layout' => 'custom', 'users' => $userList];
@@ -28,7 +39,7 @@ class Layout {
   /**
    * Use automatic layout updates.
    *
-   * @return boolean changed
+   * @return bool
    **/
   public function useAuto() {
     $params = ['layout' => 'auto'];
@@ -39,7 +50,7 @@ class Layout {
   /**
    * Hide names in video podium.
    *
-   * @return boolean changed
+   * @return bool
    **/
   public function hideNames() {
     $params = ['show_names' => false];
@@ -50,7 +61,7 @@ class Layout {
   /**
    * Show names in video podium.
    *
-   * @return boolean changed
+   * @return bool
    **/
   public function showNames() {
     $params = ['show_names' => true];

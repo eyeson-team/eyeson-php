@@ -6,7 +6,7 @@
 eyeson.team PHP library - create powerful video conferences on demand and
 easily integrate eyeson with your own PHP applications.
 
-The library offers basic features of [eyeson.team][eyeson]. See the [API
+The library offers basic features of [eyeson API][eyeson]. See the [API
 documentation][api-doc] to get a full overview, create an [issue][php-issues] if
 you found a bug or have a feature request. Feel free to add an [issue at the
 documentation repo][api-issues] for any general questions you might have.
@@ -50,12 +50,24 @@ You can control the meeting using a joined room, the actions will be triggered
 by the user who joined, use a control user on demand.
 
 ```php
-// Force stop a running meeting.
-$eyeson->shutdown($room);
+// Send chat message
+$eyeson->sendMessage($room, 'hello world!');
+
+// Start a video playback.
+$playback = $eyeson->playback($room, [
+  'url' => 'https://myapp.com/assets/video.webm',
+  'audio' => true
+]);
+$playback->start();
+
 // Start and stop a recording.
 $recording = $eyeson->record($room);
-$recording->isActive(); // true
+$recording->start();
+// later...
 $recording->stop();
+
+// Force stop a running meeting.
+$eyeson->shutdown($room);
 ```
 
 Register webhooks to receive updates like new meetings, or recordings in your
@@ -68,16 +80,46 @@ $eyeson->addWebhook('https://my.application/hooks/recordings',
 ```
 
 You can switch from the automatic layout handling to a custom layout and set
-up to four user positions for the video podium. Note: Use an empty string for
+user positions for the video podium. Note: Use an empty string for
 an empty position. Additionally, you can hide/show the name inserts in the
 video.
 
 ```php
-$layout = $eyeson->getLayout($room);
-$layout->update($userList); // ["5eb3a...994", "5eb3a...d06"]
+$layout = $eyeson->layout($room);
+$layout->apply([
+  'layout' => 'auto',
+  'name' => 'present-lower-3',
+  'users' => ["5eb3a...994", "5eb3a...d06", ...],
+  'voice_activation' => true,
+  'show_names' => false
+]);
+// switch back to automatic layout
 $layout->useAuto();
+// apply fixed custom layout
+$layout->update($userList); // ["5eb3a...994", "5eb3a...d06"]
 $layout->showNames();
 $layout->hideNames();
+```
+
+Apply overlay and background images. You can send plain text that will
+automatilcally create an overlay.
+
+```php
+$layer = $eyeson->layer($room);
+$layer->apply([
+  'url' => 'https://myapp.com/assets/meetingBackground.jpg',
+  'z-index' => -1
+]);
+
+$layer->setText('Hello World!');
+$layer->setText('This is hot.', 'News!');
+$layer->setText('This has an icon.', '', 'https://myapp.com/assets/icon.png');
+
+$layer->setImageURL('https://myapp.com/assets/meetingForeground.png');
+$layer->setImageURL('https://myapp.com/assets/meetingBackground.jpg', -1);
+
+$layer->clear();
+$layer->clear(-1);
 ```
 
 ## Install the library using Composer
@@ -86,6 +128,10 @@ $layout->hideNames();
 # required php version >= 5.4
 $ composer require eyeson/eyeson-php
 ```
+
+## Change log
+
+See [CHANGELOG.md](./CHANGELOG.md).
 
 ## Development
 
@@ -97,7 +143,7 @@ $ make build
 $ make test
 ```
 
-[eyeson]: https://www.eyeson.team "eyeson team"
+[eyeson]: https://www.eyeson.team "eyeson"
 [api-doc]: https://eyeson-team.github.io/api "eyeson API Documentation"
 [php-issues]: https://github.com/eyeson-team/eyeson-php/issues "eyeson PHP Issues"
 [api-issues]: https://github.com/eyeson-team/api/issues "eyeson API issues"

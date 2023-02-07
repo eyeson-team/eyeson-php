@@ -51,6 +51,7 @@ class Request {
 
   private function deliver($path, $method = 'GET', array $params = [], $requireAuth = true) {
     $ch = curl_init();
+    // curl_setopt($ch, CURLOPT_VERBOSE, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
@@ -59,7 +60,7 @@ class Request {
         http_build_query($this->ensureBooleans($params)));
       curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
     }
-    if ($requireAuth) {
+    if ($requireAuth && !empty($this->apiKey)) {
       curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: " . $this->apiKey
       ]);

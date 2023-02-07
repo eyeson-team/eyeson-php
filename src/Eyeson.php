@@ -8,6 +8,9 @@ use EyesonTeam\Eyeson\Resource\Layout;
 use EyesonTeam\Eyeson\Resource\Room;
 use EyesonTeam\Eyeson\Resource\Recording;
 use EyesonTeam\Eyeson\Resource\Webhook;
+use EyesonTeam\Eyeson\Resource\Playback;
+use EyesonTeam\Eyeson\Resource\Message;
+use EyesonTeam\Eyeson\Resource\Layer;
 
 class Eyeson {
   private $api;
@@ -26,7 +29,8 @@ class Eyeson {
    *
    * @param mixed $user provide an string(id), array or Eyeson\Model\User
    * @param string $id (optional) identifer for your room
-   * @return Eyeson\Room
+   * @param array options (optional)
+   * @return Eyeson\Model\Room
    **/
   public function join($user, $id = null, array $options = []) {
     if (\is_string($user)) {
@@ -44,7 +48,10 @@ class Eyeson {
   }
 
   /**
-   * @param EyesonTeam\Eyeson\Model\Room $room
+   * Fetch room data until room is ready.
+   * 
+   * @param Eyeson\Model\Room room
+   * @return Eyeson\Model\Room updated room object
    **/
   public function waitReady($room) {
     if ($room->isReady()) {
@@ -56,6 +63,9 @@ class Eyeson {
 
   /**
    * Force shutdown a running meeting.
+
+   * @param mixed Eyeson\Model\Room or string roomId
+   * @return bool
    **/
   public function shutdown($room) {
     if (is_string($room)) {
@@ -66,26 +76,27 @@ class Eyeson {
   }
 
   /**
-   * Start a recording.
+   * Get recording object.
    *
-   * @return EyesonTeam\Eyeson\Resource\Recording
+   * @param mixed Eyeson\Model\Room or string accessKey
+   * @return Eyeson\Resource\Recording
    **/
   public function record($room) {
     if (is_string($room)) {
-      $rec = new Recording($this->api, $room);
+      $recording = new Recording($this->api, $room);
     } else {
-      $rec = new Recording($this->api, $room->getAccessKey());
+      $recording = new Recording($this->api, $room->getAccessKey());
     }
-    $rec->start();
-    return $rec;
+    return $recording;
   }
 
   /**
-   * Get a rooms video layout.
+   * Get layout object.
    *
-   * @return EyesonTeam\Eyeson\Resource\Layout
+   * @param mixed Eyeson\Model\Room or string accessKey
+   * @return Eyeson\Resource\Layout
    **/
-  public function getLayout($room) {
+  public function layout($room) {
     if (is_string($room)) {
       $layout = new Layout($this->api, $room);
     } else {
@@ -95,12 +106,60 @@ class Eyeson {
   }
 
   /**
+   * Get layer object.
+   *
+   * @param mixed Eyeson\Model\Room or string accessKey
+   * @return Eyeson\Resource\Layer
+   **/
+  public function layer($room) {
+    if (is_string($room)) {
+      $layer = new Layer($this->api, $room);
+    } else {
+      $layer = new Layer($this->api, $room->getAccessKey());
+    }
+    return $layer;
+  }
+
+  /**
+   * Get playback object
+   *
+   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param array options
+   * @return Eyeson\Resource\Playback
+   * @see Eyeson\Resource\Playback options
+   **/
+  public function playback($room, $options = []) {
+    if (is_string($room)) {
+      $playback = new Playback($this->api, $room, $options);
+    } else {
+      $playback = new Playback($this->api, $room->getAccessKey(), $options);
+    }
+    return $playback;
+  }
+
+  /**
+   * Send message
+   *
+   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string content
+   * @param string type (optional)
+   * @return bool
+   **/
+  public function sendMessage($room, $content, $type = 'chat') {
+    if (is_string($room)) {
+      return (new Message($this->api, $room, $type, $content))->send();
+    } else {
+      return (new Message($this->api, $room->getAccessKey(), $type, $content))->send();
+    }
+  }
+
+  /**
    * Add a webhook in order to receive events on resource updates.
    *
    * @param string $targetUrl webhook target endpoint, your side ;)
    * @param string|array $types array or comma-separated types
    * @return bool
-   * @see EyesonTeam\Eyeson\Resource\Webhook::TYPES
+   * @see Eyeson\Resource\Webhook::TYPES
    **/
   public function addWebhook($targetUrl, $types) {
     if (\is_string($types)) {

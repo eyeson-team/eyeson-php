@@ -123,7 +123,8 @@ class EyesonTest extends TestCase {
   public function testRecordRoom() {
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
-    $this->assertTrue($eyeson->record($room)->isActive());
+    $rec = $eyeson->record($room);
+    $this->assertTrue($rec->start());
   }
 
   /**
@@ -142,7 +143,7 @@ class EyesonTest extends TestCase {
   public function testAutoLayout() {
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
-    $this->assertTrue($eyeson->getLayout($room)->useAuto());
+    $this->assertTrue($eyeson->layout($room)->useAuto());
   }
 
   /**
@@ -151,7 +152,7 @@ class EyesonTest extends TestCase {
   public function testCustomLayout() {
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
-    $layout = $eyeson->getLayout($room);
+    $layout = $eyeson->layout($room);
     $this->assertTrue($layout->update(['idone', 'idtwo']));
   }
 
@@ -161,7 +162,7 @@ class EyesonTest extends TestCase {
   public function testHideNames() {
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
-    $this->assertTrue($eyeson->getLayout($room)->hideNames());
+    $this->assertTrue($eyeson->layout($room)->hideNames());
   }
 
   /**
@@ -170,7 +171,7 @@ class EyesonTest extends TestCase {
   public function testShowNames() {
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
-    $this->assertTrue($eyeson->getLayout($room)->showNames());
+    $this->assertTrue($eyeson->layout($room)->showNames());
   }
 
   /**
