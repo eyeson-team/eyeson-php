@@ -5,4 +5,4 @@ namespace EyesonTeam\Eyeson\Exception;
 /**
  * eyeson NetworkError exception
  **/
-class NetworkError extends \Exception { };
+class NetworkError extends EyesonApiError { };

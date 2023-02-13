@@ -65,6 +65,13 @@ $recording = $eyeson->record($room);
 $recording->start();
 // later...
 $recording->stop();
+// fetch recording details if needed
+$eyeson->getRecordingById($recordingId);
+
+// Create a snapshot
+$eyeson->createSnapshot($room);
+// fetch snapshot details if needed
+$eyeson->getSnapshotById($snapshotId);
 
 // Force stop a running meeting.
 $eyeson->shutdown($room);
@@ -77,6 +84,9 @@ application.
 // Register a webhook
 $eyeson->addWebhook('https://my.application/hooks/recordings',
                     'recording_update');
+
+// Clear webhook if not needed anymore
+$eyeson->clearWebhook();
 ```
 
 You can switch from the automatic layout handling to a custom layout and set
@@ -120,6 +130,28 @@ $layer->setImageURL('https://myapp.com/assets/meetingBackground.jpg', -1);
 
 $layer->clear();
 $layer->clear(-1);
+```
+
+## Error handling
+
+API requests can throw an `EyesonApiError` which is an instance of the PHP
+`Exception`. Its `getMessage()` method contains the API response error message
+and `getCode()` contains the API response status code.
+
+```php
+use EyesonTeam\Eyeson\Exception\EyesonApiError;
+
+function startRecording($accessKey) {
+  try {
+    $recording = $eyeson->record($accessKey);
+    return $recording->start();
+  } catch (EyesonApiError $error) {
+    error_log($error->getCode() . ' - ' . $error->getMessage());
+    return false;
+  }
+}
+
+startRecording($accessKey);
 ```
 
 ## Install the library using Composer

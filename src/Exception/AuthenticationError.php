@@ -5,4 +5,4 @@ namespace EyesonTeam\Eyeson\Exception;
 /**
  * eyeson AuthenticationError exception
  **/
-class AuthenticationError extends \Exception { };
+class AuthenticationError extends EyesonApiError { };

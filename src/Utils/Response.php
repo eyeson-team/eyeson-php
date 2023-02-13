@@ -42,4 +42,11 @@ class Response {
   public function getBody() {
     return \json_decode($this->body, true);
   }
+
+  /**
+   * @return boolean body has content
+   **/
+  public function hasBody() {
+    return !empty($this->body);
+  }
 }

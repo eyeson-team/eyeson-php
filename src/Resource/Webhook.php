@@ -31,4 +31,26 @@ class Webhook {
     $this->api->post('/webhooks', ['url' => $this->url, 'types' => $types]);
     return true;
   }
+
+  /**
+   * Get current registered webhook
+   *
+   * @return object webhook | null
+   **/
+  public function getCurrent() {
+    return $this->api->get('/webhooks');
+  }
+
+  /**
+   * Clear registered webhook
+   *
+   * @return bool
+   **/
+  public function clear() {
+    $current = $this->getCurrent();
+    if ($current && isset($current['id'])) {
+      return $this->api->delete('/webhooks/' . $current['id']);
+    }
+    return true;
+  }
 }

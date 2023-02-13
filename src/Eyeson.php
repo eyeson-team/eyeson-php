@@ -11,6 +11,7 @@ use EyesonTeam\Eyeson\Resource\Webhook;
 use EyesonTeam\Eyeson\Resource\Playback;
 use EyesonTeam\Eyeson\Resource\Message;
 use EyesonTeam\Eyeson\Resource\Layer;
+use EyesonTeam\Eyeson\Resource\Snapshot;
 
 class Eyeson {
   private $api;
@@ -76,7 +77,7 @@ class Eyeson {
   }
 
   /**
-   * Get recording object.
+   * Get recording object to start and stop.
    *
    * @param mixed Eyeson\Model\Room or string accessKey
    * @return Eyeson\Resource\Recording
@@ -88,6 +89,16 @@ class Eyeson {
       $recording = new Recording($this->api, $room->getAccessKey());
     }
     return $recording;
+  }
+
+  /**
+   * Get recording by recordingId.
+   *
+   * @param string recordingId
+   * @return object recording
+   **/
+  public function getRecordingById($recordingId) {
+    return (new Recording($this->api, ''))->getById($recordingId);
   }
 
   /**
@@ -154,6 +165,30 @@ class Eyeson {
   }
 
   /**
+   * Create snapshot
+   *
+   * @param mixed Eyeson\Model\Room or string accessKey
+   * @return bool
+   **/
+  public function createSnapshot($room) {
+    if (is_string($room)) {
+      return (new Snapshot($this->api, $room))->create();
+    } else {
+      return (new Snapshot($this->api, $room->getAccessKey()))->create();
+    }
+  }
+
+  /**
+   * Get snapshot by snapshotId.
+   *
+   * @param string snapshotId
+   * @return object snapshot
+   **/
+  public function getSnapshotById($snapshotId) {
+    return (new Snapshot($this->api, ''))->getById($snapshotId);
+  }
+
+  /**
    * Add a webhook in order to receive events on resource updates.
    *
    * @param string $targetUrl webhook target endpoint, your side ;)
@@ -169,5 +204,12 @@ class Eyeson {
       return false;
     }
     return (new Webhook($this->api, $targetUrl, $types))->save();
+  }
+
+  /**
+   * Clear webhook if exist
+   **/
+  public function clearWebhook() {
+    return (new Webhook($this->api, '', []))->clear();
   }
 }

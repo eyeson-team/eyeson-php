@@ -31,5 +31,13 @@ class Recording {
   public function stop() {
     return $this->api->delete('/rooms/' . $this->accessKey . '/recording', 200, false);
   }
-}
 
+  /**
+   * Get recording by recordingId.
+   *
+   * @return object recording
+   **/
+  public function getById($recordingId) {
+    return $this->api->get('/recordings/' . $recordingId);
+  }
+}
