@@ -2,6 +2,10 @@
 
 eyeson-php change log
 
+## v2.1.1 / 2023-03-20
+
+- new: $recording = $eyeson->record($room); $recording->isActive();
+
 ## v2.1.0 / 2023-02-13
 
 - new: $eyeson->clearWebhook()

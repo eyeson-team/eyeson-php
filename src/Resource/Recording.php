@@ -14,6 +14,16 @@ class Recording {
   }
 
   /**
+   * Check if recording is currently active.
+   *
+   * @return bool
+   **/
+  public function isActive() {
+    $data = $this->api->get('/rooms/' . $this->accessKey, false);
+    return $data['recording'] !== null;
+  }
+
+  /**
    * Start a recording.
    *
    * @return bool

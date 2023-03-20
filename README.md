@@ -65,6 +65,8 @@ $recording = $eyeson->record($room);
 $recording->start();
 // later...
 $recording->stop();
+// check if recording is active
+$recording->isActive();
 // fetch recording details if needed
 $eyeson->getRecordingById($recordingId);
 
