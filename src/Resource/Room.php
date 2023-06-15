@@ -30,7 +30,7 @@ class Room {
     'lock_available', 'kick_available', 'sfu_mode', 'hide_chat',
     'reaction_available', 'guest_token_available', 'virtual_background',
     'virtual_background_allow_guest', 'virtual_background_image',
-    'virtual_background_allow_local_image'];
+    'virtual_background_allow_local_image', 'background_color'];
   const CUSTOM_OPTIONS = ['logo', 'locale', 'hide_chat', 'virtual_background',
     'virtual_background_allow_guest', 'virtual_background_image',
     'virtual_background_allow_local_image'];

@@ -2,6 +2,10 @@
 
 eyeson-php change log
 
+## v2.1.2 / 2023-06-15
+
+- new: $eyeson->join('John Doe', null, ['background_color' => '#121212'])
+
 ## v2.1.1 / 2023-03-20
 
 - new: $recording = $eyeson->record($room); $recording->isActive();

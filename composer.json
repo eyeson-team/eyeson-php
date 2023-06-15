@@ -5,6 +5,10 @@
     "keywords": ["eyeson", "video", "api"],
     "authors": [
         {
+            "name": "Stefan Benicke",
+            "email": "developers@eyeson.team"
+        },
+        {
             "name": "Christoph Lipautz",
             "email": "developers@eyeson.team"
         }
