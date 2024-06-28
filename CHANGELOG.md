@@ -2,6 +2,13 @@
 
 eyeson-php change log
 
+## v2.2.0 / 2024-06-28
+
+- new: Permalink support
+    - $eyeson->permalink->create('<user-name>', ['name'=>'<room-name>'])
+    - etc.
+- new: $eyeson->join('John Doe', null, ['widescreen' => true])
+
 ## v2.1.2 / 2023-06-15
 
 - new: $eyeson->join('John Doe', null, ['background_color' => '#121212'])

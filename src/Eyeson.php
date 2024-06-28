@@ -12,16 +12,20 @@ use EyesonTeam\Eyeson\Resource\Playback;
 use EyesonTeam\Eyeson\Resource\Message;
 use EyesonTeam\Eyeson\Resource\Layer;
 use EyesonTeam\Eyeson\Resource\Snapshot;
+use EyesonTeam\Eyeson\Resource\PermalinkAPI;
 
 class Eyeson {
   private $api;
+  public $permalink;
 
   /**
    * @param string $key your eyeson api key
    * @param string $endpoint (optional) api endpoint, set in test mode
    **/
   public function __construct($key, $endpoint = 'https://api.eyeson.team') {
-    $this->api = new Api($endpoint, $key);
+    $api = new Api($endpoint, $key);
+    $this->api = $api;
+    $this->permalink = new PermalinkAPI($api);
   }
 
   /**

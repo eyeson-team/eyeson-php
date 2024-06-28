@@ -25,19 +25,18 @@ class Room {
    *  logo ... URL destination of LOGO image
    *  locale ... locale shortname
    **/
-  const OPTIONS = ['show_names', 'show_label', 'exit_url', 'logo', 'locale',
+  const OPTIONS = ['show_names', 'show_label', 'exit_url',
     'recording_available', 'broadcast_available', 'layout_available',
-    'lock_available', 'kick_available', 'sfu_mode', 'hide_chat',
-    'reaction_available', 'guest_token_available', 'virtual_background',
-    'virtual_background_allow_guest', 'virtual_background_image',
-    'virtual_background_allow_local_image', 'background_color'];
+    'lock_available', 'kick_available', 'sfu_mode',
+    'reaction_available', 'guest_token_available',
+    'background_color', 'widescreen', 'custom_fields'];
   const CUSTOM_OPTIONS = ['logo', 'locale', 'hide_chat', 'virtual_background',
     'virtual_background_allow_guest', 'virtual_background_image',
-    'virtual_background_allow_local_image'];
+    'virtual_background_allow_local_image', 'iframe_postmessage_origin'];
 
   public function __construct($api, $id) {
-    $this->api = $api;
     $this->id = $id;
+    $this->api = $api;
   }
 
   /**
@@ -47,12 +46,7 @@ class Room {
    * @return Eyeson\Model\Room
    **/
   public function join(User $user) {
-    $params = \array_merge(
-      [ "id" => $this->id, "name" => $this->name ],
-      $this->prefix($user->toArray(), 'user'),
-      $this->prefix($this->options, 'options')
-    );
-
+    $params = $this->toArray($user);
     return new Response($this->api->post('/rooms', $params));
   }
 
@@ -70,12 +64,12 @@ class Room {
   /**
    * Set room options.
    *
-   * @param array $options see Room::OPTIONS
+   * @param array $options see Room::OPTIONS and Room:CUSTOM_OPTIONS
    * @return Eyeson\Resource\Room
    **/
   public function setOptions(array $options) {
     $this->options = \array_filter($options, function($key) {
-      return \in_array($key, self::OPTIONS);
+      return \in_array($key, self::OPTIONS) or \in_array($key, self::CUSTOM_OPTIONS);
     }, ARRAY_FILTER_USE_KEY);
     return $this;
   }
@@ -110,6 +104,22 @@ class Room {
       $room = new Response($this->api->get('/rooms/' . $accessKey, false));
     }
     return $room;
+  }
+
+  /**
+   * To array
+   * @param Eyeson\Model\User user (optional)
+   * @return array
+   */
+  public function toArray($user = null) {
+    $params = \array_merge(
+      [ "id" => $this->id, "name" => $this->name ],
+      $this->prefix($this->options, 'options')
+    );
+    if ($user) {
+      $params = \array_merge($this->prefix($user->toArray(), 'user'), $params);
+    }
+    return $params;
   }
 
   /**

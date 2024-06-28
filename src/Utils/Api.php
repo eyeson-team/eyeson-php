@@ -44,6 +44,15 @@ class Api {
   }
 
   /**
+   * Handle a HTTP PUT request to eyeson API.
+   **/
+  public function put($path, array $params = [], $requireAuth = true) {
+    $response = $this->request->put($path, $params, $requireAuth);
+    $this->ensure($response);
+    return $response->getBody();
+  }
+
+  /**
    * Handle a HTTP DELETE request to eyeson API.
    *
    * @return boolean

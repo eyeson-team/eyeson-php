@@ -41,6 +41,18 @@ class Request {
   }
 
   /**
+   * Handle a put request.
+   *
+   * @param string $path
+   * @param array $params
+   *
+   * @return EyesonTeam\Eyeson\Utils\Response
+   **/
+  public function put($path, array $params = [], $requireAuth = true) {
+    return $this->deliver($path, 'PUT', $params, $requireAuth);
+  }
+
+  /**
    * Handle a delete request.
    *
    * @return EyesonTeam\Eyeson\Utils\Response
@@ -55,7 +67,7 @@ class Request {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
-    if ($method === 'POST') {
+    if ($method === 'POST' || $method === 'PUT') {
       $query = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D',
         http_build_query($this->ensureBooleans($params)));
       curl_setopt($ch, CURLOPT_POSTFIELDS, $query);

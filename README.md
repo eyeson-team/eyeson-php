@@ -156,6 +156,31 @@ function startRecording($accessKey) {
 startRecording($accessKey);
 ```
 
+## Permalink API
+
+Since v2.2.0, eyeson-php includes functions to use with Permalink API. You can
+read more about it here: https://docs.eyeson.com/docs/rest/features/permalink
+
+```php
+$eyeson = new Eyeson('<your-eyeson-api-key>');
+
+$permalink = $eyeson->permalink->create('<username>', ['name' => '<room_name>', 'widescreen' => true]);
+echo $permalink->getId();
+echo $permalink->getUrl();
+echo $permalink->getGuestUrl();
+echo $permalink->getUserToken();
+echo $permalink->getGuestToken();
+
+$permalink = $eyeson->permalink->update('<permalink-id>', ['widescreen' => false]);
+$permalink = $eyeson->permalink->getById('<permalink-id>');
+$permalink = $eyeson->permalink->getAll(['page' => 1, 'limit' => 50, 'expired' => false]);
+$permalink = $eyeson->permalink->addUser('<permalink-id>', '<username>', ['id' => '<user-id>']);
+$eyeson->permalink->removeUser('<permalink-id>', '<user-token>');
+$room = $eyeson->permalink->joinMeeting('<user-token>');
+$room = $eyeson->permalink->registerGuest('<username>', '<guest-token>', ['id' => '<user-id>']); # works only if $permalink->isStarted() === true
+$eyeson->permalink->delete('<permalink-id>');
+```
+
 ## Install the library using Composer
 
 ```sh
