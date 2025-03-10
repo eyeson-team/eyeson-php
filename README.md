@@ -159,7 +159,7 @@ startRecording($accessKey);
 ## Permalink API
 
 Since v2.2.0, eyeson-php includes functions to use with Permalink API. You can
-read more about it here: https://docs.eyeson.com/docs/rest/features/permalink
+read more about it here: https://docs.eyeson.com/docs/rest/advanced/permalink_api
 
 ```php
 $eyeson = new Eyeson('<your-eyeson-api-key>');
@@ -203,7 +203,7 @@ $ make test
 ```
 
 [eyeson]: https://www.eyeson.team "eyeson"
-[api-doc]: https://eyeson-team.github.io/api "eyeson API Documentation"
+[api-doc]: https://docs.eyeson.com/ "eyeson API Documentation"
 [php-issues]: https://github.com/eyeson-team/eyeson-php/issues "eyeson PHP Issues"
 [api-issues]: https://github.com/eyeson-team/api/issues "eyeson API issues"
 
