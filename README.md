@@ -11,6 +11,13 @@ documentation][api-doc] to get a full overview, create an [issue][php-issues] if
 you found a bug or have a feature request. Feel free to add an [issue at the
 documentation repo][api-issues] for any general questions you might have.
 
+## Installation using Composer
+
+```sh
+# required php version >= 5.4
+$ composer require eyeson/eyeson-php
+```
+
 ## Usage
 
 Provide your api key and quickly join any room using the join method. You can
@@ -179,13 +186,6 @@ $eyeson->permalink->removeUser('<permalink-id>', '<user-token>');
 $room = $eyeson->permalink->joinMeeting('<user-token>');
 $room = $eyeson->permalink->registerGuest('<username>', '<guest-token>', ['id' => '<user-id>']); # works only if $permalink->isStarted() === true
 $eyeson->permalink->delete('<permalink-id>');
-```
-
-## Install the library using Composer
-
-```sh
-# required php version >= 5.4
-$ composer require eyeson/eyeson-php
 ```
 
 ## Change log
