@@ -2,6 +2,11 @@
 
 eyeson-php change log
 
+## v2.3.0 / 2025-03-28
+
+- new: $layer->sendImageFile($path, $zIndex)
+- deprecate warning: $layer->setText()
+
 ## v2.2.0 / 2024-06-28
 
 - new: Permalink support

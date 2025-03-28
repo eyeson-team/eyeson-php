@@ -130,12 +130,13 @@ $layer->apply([
   'z-index' => -1
 ]);
 
-$layer->setText('Hello World!');
-$layer->setText('This is hot.', 'News!');
-$layer->setText('This has an icon.', '', 'https://myapp.com/assets/icon.png');
+$layer->setText('Hello World!'); // DEPRECATED!
 
 $layer->setImageURL('https://myapp.com/assets/meetingForeground.png');
 $layer->setImageURL('https://myapp.com/assets/meetingBackground.jpg', -1);
+
+$layer->sendImageFile('./overlay.png');
+$layer->sendImageFile('./background.png', -1);
 
 $layer->clear();
 $layer->clear(-1);

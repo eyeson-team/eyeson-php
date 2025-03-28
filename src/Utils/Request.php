@@ -68,9 +68,13 @@ class Request {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
     curl_setopt($ch, CURLOPT_URL, "$this->endpoint$path");
     if ($method === 'POST' || $method === 'PUT') {
-      $query = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D',
-        http_build_query($this->ensureBooleans($params)));
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+      if (array_key_exists('file', $params)) {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+      } else {
+        $query = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D',
+          http_build_query($this->ensureBooleans($params)));
+          curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+      }
     }
     if ($requireAuth && !empty($this->apiKey)) {
       curl_setopt($ch, CURLOPT_HTTPHEADER, [

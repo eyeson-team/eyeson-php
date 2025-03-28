@@ -1,5 +1,6 @@
 {
     "name": "eyeson/eyeson-php",
+    "version": "2.3.0",
     "description": "eyeson API PHP Library",
     "license": "MIT",
     "keywords": ["eyeson", "video", "api"],

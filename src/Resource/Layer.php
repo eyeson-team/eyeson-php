@@ -20,6 +20,9 @@ class Layer {
    * @return bool
    **/
   public function apply($options = []) {
+    if (array_key_exists('insert', $options)) {
+      trigger_error('"insert" will become deprecated soon', E_USER_WARNING);
+    }
     $this->api->post('/rooms/' . $this->accessKey . '/layers', $options, false);
     return true;
   }
@@ -38,6 +41,20 @@ class Layer {
   }
 
   /**
+   * Apply layer with image file.
+   *
+   * @param string path local path of image file
+   * @param int zIndex 1:foreground, -1:background (optional, default 1)
+   * @return bool
+   **/
+  public function sendImageFile($path, $zIndex = 1) {
+    $file = curl_file_create($path);
+    $options = ['file' => $file, 'z-index' => $zIndex];
+    $this->api->post('/rooms/' . $this->accessKey . '/layers', $options, false);
+    return true;
+  }
+
+  /**
    * Apply text layer.
    *
    * @param string content
@@ -46,6 +63,7 @@ class Layer {
    * @return bool
    **/
   public function setText($content, $title = null, $iconURL = null) {
+    trigger_error('setText will become deprecated soon', E_USER_WARNING);
     $options = ['content' => $content];
     if (!empty($title)) {
         $options['title'] = $title;
