@@ -50,4 +50,13 @@ class Recording {
   public function getById($recordingId) {
     return $this->api->get('/recordings/' . $recordingId);
   }
+
+  /**
+   * Remove recording by recordingId.
+   *
+   * @return bool
+   **/
+  public function delete($recordingId) {
+    return $this->api->delete('/recordings/' . $recordingId, 200);
+  }
 }

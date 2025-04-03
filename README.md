@@ -76,12 +76,18 @@ $recording->stop();
 $recording->isActive();
 // fetch recording details if needed
 $eyeson->getRecordingById($recordingId);
+$eyeson->deleteRecordingById($recordingId);
+$recordingsList = $eyeson->getRecordingsList($room);
 
 // Create a snapshot
 $eyeson->createSnapshot($room);
 // fetch snapshot details if needed
 $eyeson->getSnapshotById($snapshotId);
+$eyeson->deleteSnapshotById($snapshotId);
+$snapshotsList = $eyeson->getSnapshotsList($room);
 
+// Get list of meeting participants and filter for only active ("online")
+$users = $eyeson->getUsersList($room, true);
 // Force stop a running meeting.
 $eyeson->shutdown($room);
 ```
@@ -187,6 +193,23 @@ $eyeson->permalink->removeUser('<permalink-id>', '<user-token>');
 $room = $eyeson->permalink->joinMeeting('<user-token>');
 $room = $eyeson->permalink->registerGuest('<username>', '<guest-token>', ['id' => '<user-id>']); # works only if $permalink->isStarted() === true
 $eyeson->permalink->delete('<permalink-id>');
+```
+
+## Forward stream
+
+Version 2.4.0 adds forward stream support. Learn more about it
+https://docs.eyeson.com/docs/rest/references/forward
+
+```php
+$eyeson = new Eyeson('<your-eyeson-api-key>');
+$room = $eyeson->join('Mike', 'standup meeting');
+
+$forward = $eyeson->forward($room);
+$forward->source('<forward-id>', '<user-id>', 'audio,video', 'https://...');
+$forward->mcu('<forward-id>', 'audio,video', 'https://...');
+$forward->playback('<forward-id>', '<play-id>', 'audio,video', 'https://...');
+
+$forward->stop('<forward-id>');
 ```
 
 ## Change log

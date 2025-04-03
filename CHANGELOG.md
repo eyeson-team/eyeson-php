@@ -2,6 +2,18 @@
 
 eyeson-php change log
 
+## v2.4.0 / 2025-04-03
+
+- new: Forward stream support
+    - $forward = $eyeson->forward($room)
+    - $forward->source('<forward-id>', '<user-id>', 'audio,video', 'https://...')
+    - etc.
+- new: $eyeson->getUsersList($room, $isOnline)
+- new: $eyeson->deleteRecordingById($recordingId)
+- new: $eyeson->getRecordingsList($room, $since, $until, $page)
+- new: $eyeson->deleteSnapshotById($snapshotId)
+- new: $eyeson->getSnapshotsList($room, $since, $until, $page)
+
 ## v2.3.0 / 2025-03-28
 
 - new: $layer->sendImageFile($path, $zIndex)

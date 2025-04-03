@@ -13,6 +13,7 @@ use EyesonTeam\Eyeson\Resource\Message;
 use EyesonTeam\Eyeson\Resource\Layer;
 use EyesonTeam\Eyeson\Resource\Snapshot;
 use EyesonTeam\Eyeson\Resource\PermalinkAPI;
+use EyesonTeam\Eyeson\Resource\Forward;
 
 class Eyeson {
   private $api;
@@ -106,6 +107,41 @@ class Eyeson {
   }
 
   /**
+   * Delete recording by recordingId.
+   *
+   * @param string recordingId
+   * @return bool
+   **/
+  public function deleteRecordingById($recordingId) {
+    return (new Recording($this->api, ''))->delete($recordingId);
+  }
+
+  /**
+   * Get list of all recordings of a room
+   * @param Eyeson\Model\Room|string Room or room_id
+   * @param string since - ISO8601 Timestamp
+   * @param string until - ISO8601 Timestamp
+   * @param int page (optional), default 1
+   * @return object[] recordings
+   */
+  public function getRecordingsList($room, $since = '', $until = '', $page = 1) {
+    if (is_string($room)) {
+      $room_id = $room;
+    } else {
+      $room_id = $room->getId();
+    }
+    $filter = ['page' => $page];
+    if ($since) {
+      $filter['since'] = $since;
+    }
+    if ($until) {
+      $filter['until'] = $until;
+    }
+    $list = $this->api->get('/rooms/' . $room_id . '/recordings?' . http_build_query($filter));
+    return $list;
+  }
+
+  /**
    * Get layout object.
    *
    * @param mixed Eyeson\Model\Room or string accessKey
@@ -193,6 +229,41 @@ class Eyeson {
   }
 
   /**
+   * Delete snapshot by snapshotId.
+   *
+   * @param string snapshotId
+   * @return bool
+   **/
+  public function deleteSnapshotById($snapshotId) {
+    return (new Snapshot($this->api, ''))->delete($snapshotId);
+  }
+
+  /**
+   * Get list of all snapshots of a room
+   * @param Eyeson\Model\Room|string Room or room_id
+   * @param string since - ISO8601 Timestamp
+   * @param string until - ISO8601 Timestamp
+   * @param int page (optional), default 1
+   * @return object[] snapshots
+   */
+  public function getSnapshotsList($room, $since = '', $until = '', $page = 1) {
+    if (is_string($room)) {
+      $room_id = $room;
+    } else {
+      $room_id = $room->getId();
+    }
+    $filter = ['page' => $page];
+    if ($since) {
+      $filter['since'] = $since;
+    }
+    if ($until) {
+      $filter['until'] = $until;
+    }
+    $list = $this->api->get('/rooms/' . $room_id . '/snapshots?' . http_build_query($filter));
+    return $list;
+  }
+
+  /**
    * Add a webhook in order to receive events on resource updates.
    *
    * @param string $targetUrl webhook target endpoint, your side ;)
@@ -215,5 +286,40 @@ class Eyeson {
    **/
   public function clearWebhook() {
     return (new Webhook($this->api, '', []))->clear();
+  }
+
+  /**
+   * Get list of meeting participants (users)
+   * @param Eyeson\Model\Room|string Room or room_id
+   * @param bool|null isOnline (optional), default null
+   * @return object[] users
+   */
+  public function getUsersList($room, $isOnline = null) {
+    if (is_string($room)) {
+      $room_id = $room;
+    } else {
+      $room_id = $room->getId();
+    }
+    $filter = '';
+    if (\is_bool($isOnline)) {
+      $filter = '?online=' . ($isOnline ? 'true' : 'false');
+    }
+    $list = $this->api->get('/rooms/' . $room_id . '/users' . $filter);
+    return $list;
+  }
+
+  /**
+   * Get room forward object
+   *
+   * @param Eyeson\Model\Room|string Room or room_id
+   * @return Eyeson\Resource\Forward
+   **/
+  public function forward($room) {
+    if (is_string($room)) {
+      $room_id = $room;
+    } else {
+      $room_id = $room->getId();
+    }
+    return new Forward($this->api, $room_id);
   }
 }

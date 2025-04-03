@@ -31,5 +31,14 @@ class Snapshot {
   public function getById($snapshotId) {
     return $this->api->get('/snapshots/' . $snapshotId);
   }
+
+  /**
+   * Delete snapshot by snapshotId.
+   *
+   * @return bool
+   **/
+  public function delete($snapshotId) {
+    return $this->api->delete('/snapshots/' . $snapshotId, 200);
+  }
 }
 

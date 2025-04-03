@@ -11,6 +11,7 @@ namespace EyesonTeam\Eyeson\Resource;
  * - replacement_id String	user-id of the participants video to be replaced
  * - url            String	Hosted MP4/WEBM video file
  * - name           String	Custom readable name
+ * - loop_count     int     Number of repetitions
  **/
 class Playback {
   private $api, $accessKey, $options;
