@@ -17,6 +17,10 @@ class Request {
     $this->apiKey = $apiKey;
   }
 
+  public function hasApiKey() {
+    return !empty($this->apiKey);
+  }
+
   /**
    * Handle a get request.
    *

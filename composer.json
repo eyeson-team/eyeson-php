@@ -1,7 +1,7 @@
 {
     "name": "eyeson/eyeson-php",
-    "version": "2.4.0",
-    "description": "eyeson API PHP Library",
+    "description": "PHP SDK for Eyeson API",
+    "type": "library",
     "license": "MIT",
     "keywords": ["eyeson", "video", "api"],
     "authors": [
@@ -18,12 +18,14 @@
       "php": "^5.4 || ^7.0 || ^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.2",
-        "php-vcr/phpunit-testlistener-vcr": "^3.0"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
-            "EyesonTeam\\Eyeson\\": "src"
+            "EyesonTeam\\Eyeson\\": "src/"
         }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

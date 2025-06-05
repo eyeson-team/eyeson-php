@@ -3,7 +3,7 @@
 namespace EyesonTeam\Eyeson\Resource;
 
 use EyesonTeam\Eyeson\Model\User;
-use EyesonTeam\Eyeson\Model\Room as Response;
+use EyesonTeam\Eyeson\Model\Room as RoomModel;
 use EyesonTeam\Eyeson\Exception\TimeoutError;
 
 /**
@@ -47,7 +47,7 @@ class Room {
    **/
   public function join(User $user) {
     $params = $this->toArray($user);
-    return new Response($this->api->post('/rooms', $params));
+    return new RoomModel($this->api->post('/rooms', $params));
   }
 
   /**
@@ -95,13 +95,13 @@ class Room {
    **/
   public function waitReady($accessKey) {
     $timeout = time() + 30;
-    $room = new Response($this->api->get('/rooms/' . $accessKey, false));
+    $room = new RoomModel($this->api->get('/rooms/' . $accessKey, false));
     while (!$room->isReady()) {
       if (time() > $timeout) {
         throw new TimeoutError('Room ready timeout.');
       }
       sleep(1);
-      $room = new Response($this->api->get('/rooms/' . $accessKey, false));
+      $room = new RoomModel($this->api->get('/rooms/' . $accessKey, false));
     }
     return $room;
   }

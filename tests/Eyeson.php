@@ -1,35 +1,72 @@
 <?php
 
-require 'bootstrap.php';
+// use the same namespace to override curl functions
+namespace EyesonTeam\Eyeson\Utils;
 
 use PHPUnit\Framework\TestCase;
 use EyesonTeam\Eyeson\Eyeson;
 
+$mockCh = null;
+$mockResult = [];
+$mockStatus = 200;
+
+class MockCurlHandle {
+    public array $options = [];
+    public function getPostFields() {
+      parse_str($this->options[CURLOPT_POSTFIELDS], $fields);
+      return $fields;
+    }
+}
+
+function curl_init() {
+  global $mockCh;
+  $mockCh = new MockCurlHandle();
+  return $mockCh;
+}
+
+function curl_setopt($ch, $option, $value) {
+    $ch->options[$option] = $value;
+    return true;
+}
+function curl_exec($ch) {
+  global $mockResult;
+  return json_encode($mockResult);
+}
+
+function curl_getinfo($ch, $option = null) {
+    global $mockStatus;
+    return $mockStatus;
+}
+
+function curl_close($ch) {
+    // do nothing
+}
+
 class EyesonTest extends TestCase {
 
-  /**
-   * @vcr join_room
-   **/
   public function testJoinRoom() {
+    global $mockResult, $mockStatus;
+    $mockResult = ['links' => ['gui' => 'https://app.eyeson.team/?testtoken']];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team', 'standup meeting');
     $this->assertSame($room->getUrl(), 'https://app.eyeson.team/?testtoken');
   }
 
-  /**
-   * @vcr join_room
-   **/
   public function testJoinRoomWithArray() {
+    global $mockResult, $mockStatus;
+    $mockResult = ['links' => ['gui' => 'https://app.eyeson.team/?testtoken']];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $user = [ 'name' => 'mike@eyeson.team' ];
     $room = $eyeson->join($user, 'standup meeting');
     $this->assertSame($room->getUrl(), 'https://app.eyeson.team/?testtoken');
   }
 
-  /**
-   * @vcr join_room
-   **/
   public function testJoinRoomWithFullUser() {
+    global $mockResult, $mockStatus;
+    $mockResult = ['links' => ['gui' => 'https://app.eyeson.team/?testtoken']];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $user = [
       'id' => 'mike@eyeson.team',
@@ -40,10 +77,19 @@ class EyesonTest extends TestCase {
     $this->assertSame($room->getUrl(), 'https://app.eyeson.team/?testtoken');
   }
 
-  /**
-   * @vcr room_options
-   **/
   public function testJoinRoomWithOptions() {
+    global $mockResult, $mockStatus;
+    $mockResult = ['options' => [
+      'show_names' => false,
+      'show_label' => false,
+      'exit_url' => 'https://www.eyeson.team/',
+      'recording_available' => false,
+      'broadcast_available' => false,
+      'layout_available' => false,
+      'layout_users' => null,
+      'custom_fields' => ['logo' => 'https://www.eyeson.com/logo.png']
+    ]];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $options = [
       'show_names' => false,
@@ -63,10 +109,12 @@ class EyesonTest extends TestCase {
     $this->assertSame($room->getOptions(), \array_merge($options, $extra));
   }
 
-  /**
-   * @vcr room_locale
-   **/
   public function testJoinRoomWithLocale() {
+    global $mockResult, $mockStatus;
+    $mockResult = ['options' => [
+      'custom_fields' => ['locale' => 'de']
+    ]];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $options = ['locale' => 'de'];
     $room = $eyeson->join('mike@eyeson.team', null, $options);
@@ -74,10 +122,22 @@ class EyesonTest extends TestCase {
     $this->assertSame($room->getOptions(), $extra);
   }
 
-  /**
-   * @vcr room_response
-   **/
   public function testProvidesRoomResponse() {
+    global $mockResult, $mockStatus;
+    $mockResult = [
+      'access_key' => '<access-key>',
+      'ready' => false,
+      'room' => [
+        'id' => 'fourtytwo',
+        'name' => 'team mike',
+        'guest_token' => 'seventeen',
+        'shutdown' => false,
+      ],
+      'links' => [
+        'guest_join' => 'https://app.eyeson.team/?guest=twentytwo'
+      ]
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
     $this->assertSame($room->isReady(), false);
@@ -89,95 +149,125 @@ class EyesonTest extends TestCase {
     $this->assertSame($room->getGuestUrl(), 'https://app.eyeson.team/?guest=twentytwo');
   }
 
-  /**
-   * @vcr set_room_name
-   **/
   public function testSetRoomName() {
+    global $mockCh, $mockResult, $mockStatus;
+    $mockResult = [
+      'room' => [
+        'name' => 'Standup',
+      ],
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team', null, ['name' => 'Standup']);
+    $fields = $mockCh->getPostFields();
+    $this->assertSame($fields['name'], 'Standup');
     $this->assertSame($room->getName(), 'Standup');
   }
 
-  /**
-   * @vcr add_webhook
-   **/
   public function testAddWebhook() {
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
-    $result = $eyeson->addWebhook('http://localhost:5678',
-      'room_update,recording_update');
+    $result = $eyeson->addWebhook('http://localhost:5678', 'room_update,recording_update');
     $this->assertSame($result, true);
   }
 
-  /**
-   * @vcr stop_room
-   **/
   public function testStopRoom() {
+    global $mockResult, $mockStatus;
+    $mockResult = [
+      'room' => [
+        'id' => 'Standup',
+      ],
+    ];
+    $mockStatus = 204;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
     $this->assertTrue($eyeson->shutdown($room));
   }
 
-  /**
-   * @vcr record_room
-   **/
   public function testRecordRoom() {
+    global $mockResult, $mockStatus;
+    $mockResult = [
+      'access_key' => '<access-key>'
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
     $rec = $eyeson->record($room);
     $this->assertTrue($rec->start());
   }
 
-  /**
-   * @vcr stop_recording
-   **/
   public function testStopRecording() {
+    global $mockResult, $mockStatus;
+    $mockResult = [
+      'access_key' => '<access-key>'
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
     $rec = $eyeson->record($room);
     $this->assertTrue($rec->stop());
   }
 
-  /**
-   * @vcr layout_auto
-   **/
   public function testAutoLayout() {
+    global $mockResult, $mockStatus;
+    $mockResult = [
+      'access_key' => '<access-key>'
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
     $this->assertTrue($eyeson->layout($room)->useAuto());
   }
 
-  /**
-   * @vcr layout_users_update
-   **/
   public function testCustomLayout() {
+    global $mockResult, $mockStatus;
+    $mockResult = [
+      'access_key' => '<access-key>'
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
     $layout = $eyeson->layout($room);
     $this->assertTrue($layout->update(['idone', 'idtwo']));
   }
 
-  /**
-   * @vcr layout_hide_names
-   **/
-  public function testHideNames() {
-    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
-    $room = $eyeson->join('mike@eyeson.team');
-    $this->assertTrue($eyeson->layout($room)->hideNames());
-  }
-
-  /**
-   * @vcr layout_show_names
-   **/
   public function testShowNames() {
+    global $mockResult, $mockStatus, $mockCh;
+    $mockResult = [
+      'access_key' => '<access-key>'
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team');
-    $this->assertTrue($eyeson->layout($room)->showNames());
+    $result = $eyeson->layout($room)->showNames();
+    $fields = $mockCh->getPostFields();
+    $this->assertSame($fields['show_names'], 'true');
+    $this->assertTrue($result);
   }
 
-  /**
-   * @vcr virtual_background
-   **/
+  public function testHideNames() {
+    global $mockResult, $mockStatus, $mockCh;
+    $mockResult = [
+      'access_key' => '<access-key>'
+    ];
+    $mockStatus = 200;
+    $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
+    $room = $eyeson->join('mike@eyeson.team');
+    $result = $eyeson->layout($room)->hideNames();
+    $fields = $mockCh->getPostFields();
+    $this->assertSame($fields['show_names'], 'false');
+    $this->assertTrue($result);
+  }
+
   public function testVirtualBackground() {
+    global $mockResult, $mockStatus, $mockCh;
+    $mockResult = [
+      'options' => [
+        'custom_fields' => [
+          'virtual_background' => true
+        ]
+      ]
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team', null, [
       'virtual_background' => true,
@@ -185,15 +275,24 @@ class EyesonTest extends TestCase {
       'virtual_background_image' => 'http://localhost:8000/bg.jpg',
       'virtual_background_allow_local_image' => true
     ]);
+    $fields = $mockCh->getPostFields();
+    $this->assertSame($fields['options']['custom_fields']['virtual_background'], 'true');
+    $this->assertSame($fields['options']['custom_fields']['virtual_background_image'], 'http://localhost:8000/bg.jpg');
     $this->assertTrue($room->getOptions()['custom_fields']['virtual_background']);
   }
 
-  /**
-   * @vcr sfu_mode
-   **/
   public function testSFUMode() {
+    global $mockResult, $mockStatus, $mockCh;
+    $mockResult = [
+      'options' => [
+        'sfu_mode' => 'disabled'
+      ]
+    ];
+    $mockStatus = 200;
     $eyeson = new Eyeson('secret-key', 'http://localhost:8000');
     $room = $eyeson->join('mike@eyeson.team', null, ['sfu_mode' => 'disabled']);
+    $fields = $mockCh->getPostFields();
+    $this->assertSame($fields['options']['sfu_mode'], 'disabled');
     $this->assertEquals($room->getOptions()['sfu_mode'], 'disabled');
   }
 }

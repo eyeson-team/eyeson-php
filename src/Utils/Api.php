@@ -25,6 +25,10 @@ class Api {
     $this->request = new Request($endpoint, $key);
   }
 
+  public function hasApiKey() {
+    return $this->request->hasApiKey();
+  }
+
   /**
    * Handle a HTTP GET request to eyeson API.
    **/

@@ -6,7 +6,7 @@ namespace EyesonTeam\Eyeson\Model;
  * User
  **/
 class User {
-  private $id, $name, $avatar;
+  private $data = [];
 
   /**
    * @param array $args with optional keys id, name and avatar
@@ -23,7 +23,7 @@ class User {
    * @return bool
    **/
   public function isValid() {
-    return !empty($id);
+    return array_key_exists('id', $this->data) && !empty($this->data['id']);
   }
 
   /**
@@ -31,7 +31,7 @@ class User {
    **/
   public function fromArray($args) {
     foreach ($args as $key => $value) {
-      $this->{$key} = $value;
+      $this->data[$key] = $value;
     }
   }
 
@@ -39,10 +39,6 @@ class User {
    * Convert model to array.
    **/
   public function toArray() {
-    return [
-      'id' => $this->id,
-      'name' => $this->name,
-      'avatar' => $this->avatar
-    ];
+    return $this->data;
   }
 }

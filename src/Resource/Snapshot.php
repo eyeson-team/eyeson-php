@@ -24,6 +24,15 @@ class Snapshot {
   }
 
   /**
+   * Get snapshot by accessKey and snapshotId.
+   *
+   * @return object snapshot
+   **/
+  public function getByAccessKey($snapshotId) {
+    return $this->api->get('/rooms/' . $this->accessKey . '/snapshots/' . $snapshotId);
+  }
+
+  /**
    * Get snapshot by snapshotId.
    *
    * @return object snapshot

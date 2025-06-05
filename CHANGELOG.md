@@ -2,6 +2,19 @@
 
 eyeson-php change log
 
+## v2.5.0 / 2025-06-05
+
+- new: $eyeson->registerGuest('John Doe', $room)
+- new: $eyeson->getRoomDetails($accessKey)
+- new: $eyeson->lockMeeting($room)
+- new: $eyeson->getUserSnapshot($accessKey, $snapshotId)
+- new: broadcast support
+    $broadcast = $eyeson->broadcast($room, ['stream_url' => 'https://...'])
+    $broadcast->start()
+    $broadcast->stop()
+    $broadcast->isActive()
+- update: unit tests
+
 ## v2.4.0 / 2025-04-03
 
 - new: Forward stream support

@@ -4,6 +4,7 @@ namespace EyesonTeam\Eyeson;
 
 use EyesonTeam\Eyeson\Utils\Api;
 use EyesonTeam\Eyeson\Model\User;
+use EyesonTeam\Eyeson\Model\Room as RoomModel;
 use EyesonTeam\Eyeson\Resource\Layout;
 use EyesonTeam\Eyeson\Resource\Room;
 use EyesonTeam\Eyeson\Resource\Recording;
@@ -14,6 +15,7 @@ use EyesonTeam\Eyeson\Resource\Layer;
 use EyesonTeam\Eyeson\Resource\Snapshot;
 use EyesonTeam\Eyeson\Resource\PermalinkAPI;
 use EyesonTeam\Eyeson\Resource\Forward;
+use EyesonTeam\Eyeson\Resource\Broadcast;
 
 class Eyeson {
   private $api;
@@ -23,7 +25,7 @@ class Eyeson {
    * @param string $key your eyeson api key
    * @param string $endpoint (optional) api endpoint, set in test mode
    **/
-  public function __construct($key, $endpoint = 'https://api.eyeson.team') {
+  public function __construct($key = '', $endpoint = 'https://api.eyeson.team') {
     $api = new Api($endpoint, $key);
     $this->api = $api;
     $this->permalink = new PermalinkAPI($api);
@@ -54,6 +56,44 @@ class Eyeson {
   }
 
   /**
+   * Register a guest user
+   *
+   * @param string|array|Eyeson\Model\User $user User name or user object
+   * @param string|Eyeson\Model\Room $room Room Id or room model
+   * @return Eyeson\Model\Room
+   **/
+  public function registerGuest($user, $room) {
+    if (\is_string($user)) {
+      $userObj = new User(['name' => $user]);
+    }
+    elseif (\is_array($user)) {
+      $userObj = new User($user);
+    }
+    $params = $userObj->toArray();
+    if (is_string($room)) {
+      $guestToken = $room;
+    } else {
+      $guestToken = $room->getGuestToken();
+    }
+    return new RoomModel($this->api->post('/guests/' . $guestToken, $params));
+  }
+
+  /**
+   * Get room details
+   *
+   * @param string|Eyeson\Model\Room AccessKey or room model
+   * @return Eyeson\Model\Room
+   **/
+  public function getRoomDetails($room) {
+    if (\is_string($room)) {
+      $accessKey = $room;
+    } else {
+      $accessKey = $room->getAccessKey();
+    }
+    return new RoomModel($this->api->get('/rooms/' . $accessKey, false));
+  }
+
+  /**
    * Fetch room data until room is ready.
    * 
    * @param Eyeson\Model\Room room
@@ -70,21 +110,40 @@ class Eyeson {
   /**
    * Force shutdown a running meeting.
 
-   * @param mixed Eyeson\Model\Room or string roomId
+   * @param string|Eyeson\Model\Room Room Id, accessKey, or room instance
    * @return bool
    **/
   public function shutdown($room) {
     if (is_string($room)) {
       return (new Room($this->api, $room))->destroy();
     } else {
-      return (new Room($this->api, $room->getId()))->destroy();
+      if ($this->api->hasApiKey()) {
+        return (new Room($this->api, $room->getId()))->destroy();
+      }
+      return (new Room($this->api, $room->getAccessKey()))->destroy();
     }
+  }
+
+  /**
+   * Lock a meeting room.
+
+   * @param mixed Eyeson\Model\Room or string accessKey
+   * @return bool
+   **/
+  public function lockMeeting($room) {
+    if (is_string($room)) {
+      $accessKey = $room;
+    } else {
+      $accessKey = $room->getAccessKey();
+    }
+    $this->api->post('/rooms/' . $accessKey . '/lock', [], false);
+    return true;
   }
 
   /**
    * Get recording object to start and stop.
    *
-   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string|Eyeson\Model\Room accessKey or room model
    * @return Eyeson\Resource\Recording
    **/
   public function record($room) {
@@ -179,13 +238,30 @@ class Eyeson {
    * @return Eyeson\Resource\Playback
    * @see Eyeson\Resource\Playback options
    **/
-  public function playback($room, $options = []) {
+  public function playback($room, array $options = []) {
     if (is_string($room)) {
       $playback = new Playback($this->api, $room, $options);
     } else {
       $playback = new Playback($this->api, $room->getAccessKey(), $options);
     }
     return $playback;
+  }
+
+  /**
+   * Get broadcast object
+   *
+   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param array options
+   * @return Eyeson\Resource\Broadcast
+   * @see Eyeson\Resource\Broadcast options
+   **/
+  public function broadcast($room, array $options = []) {
+    if (is_string($room)) {
+      $broadcast = new Broadcast($this->api, $room, $options);
+    } else {
+      $broadcast = new Broadcast($this->api, $room->getAccessKey(), $options);
+    }
+    return $broadcast;
   }
 
   /**
@@ -216,6 +292,22 @@ class Eyeson {
     } else {
       return (new Snapshot($this->api, $room->getAccessKey()))->create();
     }
+  }
+
+  /**
+   * Get snapshot by snapshotId.
+   *
+   * @param string|Eyeson\Model\Room accessKey or room model
+   * @param string snapshotId
+   * @return object snapshot
+   **/
+  public function getUserSnapshot($room, $snapshotId) {
+    if (is_string($room)) {
+      $accessKey = $room;
+    } else {
+      $accessKey = $room->getAccessKey();
+    }
+    return (new Snapshot($this->api, $accessKey))->getByAccessKey($snapshotId);
   }
 
   /**

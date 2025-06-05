@@ -42,6 +42,8 @@ $user = [
   'avatar' => 'https://mikes.website/avatar.png'
 ];
 $room = $eyeson->join($user, 'daily standup');
+
+$guest = $eyeson->registerGuest('John Doe', $room);
 ```
 
 Before running any meeting related function like record, layout, or shutdown,
@@ -86,8 +88,20 @@ $eyeson->getSnapshotById($snapshotId);
 $eyeson->deleteSnapshotById($snapshotId);
 $snapshotsList = $eyeson->getSnapshotsList($room);
 
+// Start and stop a recording.
+$broadcast = $eyeson->broadcast($room, [
+  'stream_url' => 'https://...'
+]);
+$broadcast->start();
+// later...
+$broadcast->stop();
+// check if broadcast is active
+$broadcast->isActive();
+
 // Get list of meeting participants and filter for only active ("online")
 $users = $eyeson->getUsersList($room, true);
+// lock meeting room
+$eyeson->lockMeeting($room);
 // Force stop a running meeting.
 $eyeson->shutdown($room);
 ```
