@@ -86,7 +86,7 @@ $eyeson->getSnapshotById($snapshotId);
 $eyeson->deleteSnapshotById($snapshotId);
 $snapshotsList = $eyeson->getSnapshotsList($room);
 
-// Start and stop a recording.
+// Start and stop a broadcast.
 $broadcast = $eyeson->broadcast($room, [
   'stream_url' => 'https://...'
 ]);
