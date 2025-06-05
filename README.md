@@ -1,8 +1,6 @@
 
 # eyeson-php
 
-[![Build Status](https://travis-ci.org/eyeson-team/eyeson-php.svg?branch=master)](https://travis-ci.org/eyeson-team/eyeson-php)
-
 eyeson.team PHP library - create powerful video conferences on demand and
 easily integrate eyeson with your own PHP applications.
 
