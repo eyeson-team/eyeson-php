@@ -18,7 +18,7 @@ class PermalinkAPI {
   /**
    * Create permalink entry
    *
-   * @param mixed $user provide an string(id), array or Eyeson\Model\User
+   * @param string|array|Eyeson\Model\User $user name or user object
    * @param array options (optional)
    * @return Eyeson\Model\Permalink
    **/
@@ -103,7 +103,7 @@ class PermalinkAPI {
    * Add user to permalink entry
    *
    * @param string permalinkId
-   * @param mixed $user provide an string(id), array or Eyeson\Model\User
+   * @param string|array|Eyeson\Model\User $user name or user object
    * @param array options (optional)
    * @return Eyeson\Model\Permalink
    **/
@@ -146,7 +146,7 @@ class PermalinkAPI {
   /**
    * Register guest user with permalink guest token
    *
-   * @param mixed $user provide an string(id), array or Eyeson\Model\User
+   * @param string|array|Eyeson\Model\User $user name or user object
    * @param string guestToken
    * @param array options (optional)
    * @return Eyeson\Model\Room

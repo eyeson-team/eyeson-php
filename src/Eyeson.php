@@ -22,6 +22,27 @@ class Eyeson {
   public $permalink;
 
   /**
+   * A static property for layer z-index "1"
+   * @var int
+   */
+  public static $layerForeground = 1;
+  /**
+   * A static property for layer z-index "-1"
+   * @var int
+   */
+  public static $layerBackground = -1;
+  /**
+   * A static property for webhook type room update
+   * @var string
+   */
+  public static $webhookRoom = 'room_update';
+  /**
+   * A static property for webhook type recording update
+   * @var string
+   */
+  public static $webhookRecording = 'recording_update';
+
+  /**
    * @param string $key your eyeson api key
    * @param string $endpoint (optional) api endpoint, set in test mode
    **/
@@ -35,7 +56,7 @@ class Eyeson {
    * Join an eyeson room using a identifier to ensure people land in the same
    * meeint and a string uniquely identifing a user.
    *
-   * @param mixed $user provide an string(id), array or Eyeson\Model\User
+   * @param string|array|Eyeson\Model\User $user user name, array or user model
    * @param string $id (optional) identifer for your room
    * @param array options (optional)
    * @return Eyeson\Model\Room
@@ -94,6 +115,15 @@ class Eyeson {
   }
 
   /**
+   * Get list of current meetings
+   *
+   * @return object[]
+   */
+  public function getAllCurrentMeetings() {
+    return $this->api->get('/rooms');
+  }
+
+  /**
    * Fetch room data until room is ready.
    * 
    * @param Eyeson\Model\Room room
@@ -127,7 +157,7 @@ class Eyeson {
   /**
    * Lock a meeting room.
 
-   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string|Eyeson\Model\Room AccessKey or room model
    * @return bool
    **/
   public function lockMeeting($room) {
@@ -203,7 +233,7 @@ class Eyeson {
   /**
    * Get layout object.
    *
-   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string|Eyeson\Model\Room AccessKey or room model
    * @return Eyeson\Resource\Layout
    **/
   public function layout($room) {
@@ -218,7 +248,7 @@ class Eyeson {
   /**
    * Get layer object.
    *
-   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string|Eyeson\Model\Room AccessKey or room model
    * @return Eyeson\Resource\Layer
    **/
   public function layer($room) {
@@ -233,7 +263,7 @@ class Eyeson {
   /**
    * Get playback object
    *
-   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string|Eyeson\Model\Room AccessKey or room model
    * @param array options
    * @return Eyeson\Resource\Playback
    * @see Eyeson\Resource\Playback options
@@ -250,7 +280,7 @@ class Eyeson {
   /**
    * Get broadcast object
    *
-   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string|Eyeson\Model\Room AccessKey or room model
    * @param array options
    * @return Eyeson\Resource\Broadcast
    * @see Eyeson\Resource\Broadcast options
@@ -267,7 +297,7 @@ class Eyeson {
   /**
    * Send message
    *
-   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string|Eyeson\Model\Room AccessKey or room model
    * @param string content
    * @param string type (optional)
    * @return bool
@@ -283,7 +313,7 @@ class Eyeson {
   /**
    * Create snapshot
    *
-   * @param mixed Eyeson\Model\Room or string accessKey
+   * @param string|Eyeson\Model\Room AccessKey or room model
    * @return bool
    **/
   public function createSnapshot($room) {

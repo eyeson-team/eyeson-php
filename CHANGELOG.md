@@ -2,6 +2,12 @@
 
 eyeson-php change log
 
+## v2.5.1 / 2025-06-06
+
+- new: $eyeson->getAllCurrentMeetings()
+- new: static members
+    Eyeson::$layerForeground, $layerBackground, $webhookRoom, $webhookRecording
+
 ## v2.5.0 / 2025-06-05
 
 - new: $eyeson->registerGuest('John Doe', $room)

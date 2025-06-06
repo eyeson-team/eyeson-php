@@ -102,6 +102,8 @@ $users = $eyeson->getUsersList($room, true);
 $eyeson->lockMeeting($room);
 // Force stop a running meeting.
 $eyeson->shutdown($room);
+
+$list = $eyeson->getAllCurrentMeetings();
 ```
 
 Register webhooks to receive updates like new meetings, or recordings in your
@@ -110,7 +112,7 @@ application.
 ```php
 // Register a webhook
 $eyeson->addWebhook('https://my.application/hooks/recordings',
-                    'recording_update');
+                    Eyeson::$webhookRecording);
 
 // Clear webhook if not needed anymore
 $eyeson->clearWebhook();
@@ -145,19 +147,19 @@ automatilcally create an overlay.
 $layer = $eyeson->layer($room);
 $layer->apply([
   'url' => 'https://myapp.com/assets/meetingBackground.jpg',
-  'z-index' => -1
+  'z-index' => Eyeson::$layerBackground
 ]);
 
 $layer->setText('Hello World!'); // DEPRECATED!
 
 $layer->setImageURL('https://myapp.com/assets/meetingForeground.png');
-$layer->setImageURL('https://myapp.com/assets/meetingBackground.jpg', -1);
+$layer->setImageURL('https://myapp.com/assets/meetingBackground.jpg', Eyeson::$layerBackground);
 
 $layer->sendImageFile('./overlay.png');
-$layer->sendImageFile('./background.png', -1);
+$layer->sendImageFile('./background.png', Eyeson::$layerBackground);
 
 $layer->clear();
-$layer->clear(-1);
+$layer->clear(Eyeson::$layerBackground);
 ```
 
 ## Error handling
